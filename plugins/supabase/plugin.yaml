@@ -1,0 +1,50 @@
+name: supabase
+version: 0.1.0
+description: Supabase (Postgres + Auth + Storage + Edge Functions) integration — env-driven client, RLS skills, migration skill, database-reviewer agent.
+
+requires:
+  core: ">=1.0"
+  plugins: []
+
+conflicts: []
+
+contributes:
+  files:
+    - from: files/src/integrations/supabase/client.ts.eta
+      to: src/integrations/supabase/client.ts
+    - from: files/supabase/.gitkeep
+      to: supabase/.gitkeep
+
+  claude:
+    skills:
+      - supabase-rls-pattern
+      - supabase-migration
+    agents:
+      - database-reviewer
+
+  docs:
+    - from: docs/supabase.md.eta
+      to: Docs/arquitetura/supabase.md
+
+  package:
+    scripts:
+      "db:reset": "supabase db reset"
+      "supabase:gen-types": "supabase gen types typescript --local > src/integrations/supabase/types.ts"
+    deps:
+      "@supabase/supabase-js": "^2.45.0"
+    devDeps:
+      "supabase": "^1.200.0"
+
+  ci:
+    jobs: []
+
+  env:
+    - VITE_SUPABASE_URL
+    - VITE_SUPABASE_ANON_KEY
+    - SUPABASE_SERVICE_ROLE_KEY
+
+prompts:
+  - name: supabaseProjectRef
+    message: "Supabase project ref (skip if not yet)"
+    type: input
+    optional: true

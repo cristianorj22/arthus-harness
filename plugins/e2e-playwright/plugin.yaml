@@ -1,0 +1,42 @@
+name: e2e-playwright
+version: 0.1.0
+description: Playwright E2E with storageState pattern + AxeBuilder a11y helper. Generic — adapts to any auth'd web app.
+requires:
+  core: ">=1.0"
+  plugins: []
+conflicts: []
+contributes:
+  files:
+    - from: templates/global-setup.ts.template
+      to: e2e/global-setup.ts
+    - from: templates/playwright.config.ts.template
+      to: playwright.config.ts
+    - from: templates/fixtures/test-users.ts.template
+      to: e2e/fixtures/test-users.ts
+    - from: templates/fixtures/routes.ts.template
+      to: e2e/fixtures/routes.ts
+    - from: templates/example.spec.ts.template
+      to: e2e/example.spec.ts
+    - from: helpers/axe.ts
+      to: e2e/helpers/axe.ts
+  claude:
+    skills: []
+    agents: []
+    hooks: []
+    commands: []
+    settingsHooks: []
+  docs:
+    - from: docs/e2e-pattern.md
+      to: Docs/testes/e2e-pattern.md
+  package:
+    scripts:
+      "test:e2e": "playwright test"
+      "test:e2e:install": "playwright install --with-deps"
+    deps: {}
+    devDeps:
+      "@playwright/test": "^1.45.0"
+      "@axe-core/playwright": "^4.9.0"
+  ci:
+    jobs: []
+  env: []
+prompts: []

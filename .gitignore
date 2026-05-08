@@ -1,0 +1,17 @@
+node_modules/
+*.log
+.DS_Store
+dist/
+.tmp/
+
+# Test artifacts
+tests/.tmp/
+tests/snapshots/.actual/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# OS
+Thumbs.db

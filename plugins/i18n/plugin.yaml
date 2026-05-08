@@ -1,0 +1,34 @@
+name: i18n
+version: 0.1.0
+description: i18n source-of-truth pattern + parity validator (check_i18n.mjs). Skips silently until src/locales/ exists.
+requires:
+  core: ">=1.0"
+  plugins: []
+conflicts: []
+contributes:
+  files:
+    - from: scripts/check_i18n.mjs
+      to: scripts/check_i18n.mjs
+    - from: templates/locales/pt-BR.json.template
+      to: src/locales/pt-BR.json
+    - from: templates/locales/en.json.template
+      to: src/locales/en.json
+  claude:
+    skills:
+      - i18n-source-of-truth
+    agents: []
+    hooks: []
+    commands: []
+    settingsHooks: []
+  docs:
+    - from: docs/i18n.md
+      to: Docs/design-system/patterns/i18n.md
+  package:
+    scripts:
+      "i18n:check": "node scripts/check_i18n.mjs"
+    deps: {}
+    devDeps: {}
+  ci:
+    jobs: []
+  env: []
+prompts: []

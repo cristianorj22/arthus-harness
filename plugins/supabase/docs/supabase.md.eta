@@ -1,0 +1,191 @@
+# Supabase setup — <%= projectName %>
+
+> Reference for using Supabase in <%= projectName %>: env vars, local dev, migrations, RLS pattern, edge functions.
+
+## Env vars
+
+Required (lives in `.env`, never committed):
+
+| Variable | Where it's read | Notes |
+|---|---|---|
+| `VITE_SUPABASE_URL` | `src/integrations/supabase/client.ts` | Public; safe to expose to browser. |
+| `VITE_SUPABASE_ANON_KEY` | `src/integrations/supabase/client.ts` | Public; respects RLS. |
+| `SUPABASE_SERVICE_ROLE_KEY` | **Edge functions only.** | Bypasses RLS. NEVER import in client code. |
+
+Copy `.env.example` → `.env` and fill in the values from your Supabase project (Settings → API).
+
+## Local development
+
+Pre-requisites:
+
+```bash
+# Install Supabase CLI (one of)
+npm install -g supabase
+# or: brew install supabase/tap/supabase
+# or: scoop install supabase  (Windows)
+```
+
+Start the local stack (Postgres + Auth + Storage + Studio):
+
+```bash
+supabase start                   # boots Docker containers
+supabase status                  # shows local URLs + keys
+supabase stop                    # tear down
+```
+
+Local URLs default:
+
+- API: `http://localhost:54321`
+- Studio: `http://localhost:54323`
+- DB: `postgresql://postgres:postgres@localhost:54322/postgres`
+
+For local dev, point `.env` at `supabase status` output.
+
+## Migrations
+
+Migrations live in `supabase/migrations/`. Filename convention: `YYYYMMDDHHMMSS_<snake_case>.sql`.
+
+Workflow:
+
+```bash
+# 1. New migration scaffold
+supabase migration new add_<resource>
+
+# 2. Edit the .sql file
+
+# 3. Apply locally + regen TS types
+supabase db reset                # nukes local DB + reapplies all migrations
+npm run supabase:gen-types
+
+# 4. Test the UI / queries
+
+# 5. Commit migration + types together
+git add supabase/migrations/<file>.sql src/integrations/supabase/types.ts
+git commit -m "feat(supabase): add <resource> table"
+
+# 6. Apply to remote (when ready, careful)
+supabase db push
+```
+
+Rules — full detail in `.claude/skills/supabase-migration/SKILL.md`:
+
+- Forward-only (no `down` block; revert via a NEW migration).
+- Idempotent (`if not exists` / `or replace`).
+- RLS enabled in the same migration as table creation.
+- Index every FK and every column referenced by RLS policies.
+- Right types: `bigint` / `uuid` for IDs, `text`, `timestamptz`, `numeric`, `jsonb`.
+
+## RLS pattern
+
+Full detail in `.claude/skills/supabase-rls-pattern/SKILL.md`. Quick rules:
+
+```sql
+alter table public.<resource> enable row level security;
+
+create policy "owner reads own <resource>"
+  on public.<resource> for select
+  using (owner_id = (select auth.uid()));
+
+create index idx_<resource>_owner_id on public.<resource>(owner_id);
+```
+
+Key invariants:
+
+1. RLS enabled on every user-data table.
+2. Wrap `auth.uid()` in `(select ...)` — postgres caches it per query (vs per row).
+3. Separate policies per `select / insert / update / delete`.
+4. Index every column appearing in a policy.
+5. `service_role` only in edge functions — never imported by client code.
+6. Admin / role-based access via subquery against your `profiles` table — not via `service_role`.
+
+## Edge functions (server-side)
+
+Edge functions live in `supabase/functions/<name>/index.ts` (Deno runtime). They:
+
+- Read `SUPABASE_SERVICE_ROLE_KEY` from env when they need to bypass RLS.
+- Are deployed via `supabase functions deploy <name>`.
+- Run on Supabase's edge network (Deno).
+
+Stub:
+
+```ts
+// supabase/functions/<name>/index.ts
+import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+
+Deno.serve(async (req) => {
+  const supabase = createClient(
+    Deno.env.get('SUPABASE_URL')!,
+    Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!  // bypass RLS — careful
+  );
+
+  // ... your logic
+
+  return new Response(JSON.stringify({ ok: true }), {
+    headers: { 'content-type': 'application/json' },
+  });
+});
+```
+
+Local invocation:
+
+```bash
+supabase functions serve <name> --env-file .env
+curl -X POST http://localhost:54321/functions/v1/<name> \
+  -H "Authorization: Bearer $VITE_SUPABASE_ANON_KEY"
+```
+
+Deploy:
+
+```bash
+supabase functions deploy <name> --project-ref <ref>
+supabase secrets set --env-file .env --project-ref <ref>
+```
+
+## Type generation
+
+The `Database` type in `src/integrations/supabase/types.ts` is auto-generated:
+
+```bash
+npm run supabase:gen-types
+# = supabase gen types typescript --local > src/integrations/supabase/types.ts
+```
+
+After every migration. Commit alongside.
+
+For remote project:
+
+```bash
+supabase gen types typescript --project-id <ref> > src/integrations/supabase/types.ts
+```
+
+## Useful commands
+
+```bash
+# Status of local stack
+supabase status
+
+# Inspect schema
+supabase db diff                       # what's changed locally vs the last migration
+supabase db lint                       # static analysis
+
+# Branching (Pro plan)
+supabase branches create <name>
+supabase branches list
+
+# Direct SQL
+psql "$(supabase status -o env | grep DB_URL | cut -d= -f2-)" -c "select * from <table> limit 5;"
+```
+
+## Troubleshooting
+
+- **"Missing Supabase env vars"** at boot → `.env` not loaded. Vite reads `.env` at the project root; check for typos in `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY`.
+- **Empty results that should have rows** → almost always an RLS policy issue. Test with the SQL Editor "set role" feature or with `service_role` to confirm rows exist; then audit the policy.
+- **Migration runs locally but not on remote** → check `supabase migration list` — remote may be behind. `supabase db push` to apply.
+- **Types out of sync** → `npm run supabase:gen-types` and commit.
+
+## See also
+
+- `.claude/skills/supabase-rls-pattern/SKILL.md`
+- `.claude/skills/supabase-migration/SKILL.md`
+- `.claude/agents/database-reviewer.md`
+- Supabase docs: https://supabase.com/docs

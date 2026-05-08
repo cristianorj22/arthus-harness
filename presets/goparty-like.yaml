@@ -1,0 +1,10 @@
+name: goparty-like
+description: Full GoParty-style stack — supabase + design system + payment + i18n + e2e + journey-mapping
+plugins:
+  - supabase
+  - design-system-pipeline
+  - payment-asaas
+  - i18n
+  - e2e-playwright
+  - journey-mapping
+principles: A

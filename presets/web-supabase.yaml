@@ -1,0 +1,7 @@
+name: web-supabase
+description: Most common SaaS stack — Supabase backend + Tailwind design system + Playwright E2E
+plugins:
+  - supabase
+  - design-system-pipeline
+  - e2e-playwright
+principles: both

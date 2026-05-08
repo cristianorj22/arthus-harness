@@ -1,0 +1,23 @@
+name: journey-mapping
+version: 0.1.0
+description: User journey docs in Docs/produto/jornadas/ — captures sequence of steps, edge cases, multi-actor handoffs, a11y branches, recovery paths, falha catastrófica per persona. Hook reminds when editing surfaces that have documented journeys.
+requires:
+  core: ">=1.0"
+  plugins: []
+conflicts: []
+contributes:
+  files:
+    - from: files/Docs/produto/jornadas/_surfaces.json.template
+      to: Docs/produto/jornadas/_surfaces.json
+  claude:
+    skills: [journey-mapping]
+    hooks: [journey-touch-reminder]
+    settingsHooks:
+      - event: PostToolUse
+        matcher: "Edit|Write|MultiEdit"
+        command: "node .claude/hooks/journey-touch-reminder.cjs"
+        timeout: 3
+  docs:
+    - from: docs/journey-mapping.md
+      to: Docs/produto/jornadas/JOURNEY-MAPPING.md
+prompts: []

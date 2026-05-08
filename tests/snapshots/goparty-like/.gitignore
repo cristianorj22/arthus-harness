@@ -1,0 +1,72 @@
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# Build output
+dist/
+build/
+out/
+.next/
+.nuxt/
+.cache/
+.parcel-cache/
+
+# Env files (secrets — never commit)
+.env
+.env.local
+.env.*.local
+.envrc
+.secrets
+.vault
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+!.vscode/settings.json.example
+.idea/
+*.swp
+*.swo
+*~
+
+# Test coverage
+coverage/
+*.lcov
+.nyc_output/
+
+# TypeScript
+*.tsbuildinfo
+
+# Claude Code session artifacts (gitignored — local to each dev)
+.claude/.session-edits.txt
+.claude/.session-journey-hints.txt
+.claude/agent-memory/
+.claude/reviews/
+.claude/session-data/
+
+# Lockfile-only conflict resolution artifacts
+*.orig
+
+# Sensitive paths (defense in depth — MISSION.md §1.2)
+**/secrets/
+**/vault/
+**/private/
+**/*.key
+**/*.pem
+**/*.crt
+**/id_rsa*
+**/id_ed25519*
+**/.ssh/
+**/.aws/
+**/.azure/
+**/.gcloud/
+**/credentials
+**/kubeconfig

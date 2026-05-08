@@ -1,0 +1,16 @@
+%% Auth flow — generic example
+%% Substitua os atores e steps pelos do seu projeto.
+%% Adicione `participant` extras conforme integrações externas (OAuth, KYC, etc).
+
+sequenceDiagram
+    participant User
+    participant App as App (Cliente)
+    participant API as API / Backend
+    participant DB as Database
+
+    User->>App: login (email + senha)
+    App->>API: POST /auth/login
+    API->>DB: validate credentials
+    DB-->>API: user + session
+    API-->>App: JWT
+    App-->>User: redirect to /dashboard

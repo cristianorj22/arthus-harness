@@ -1,0 +1,182 @@
+---
+description: Code review — local uncommitted changes (no args) or GitHub PR (pass PR number/URL)
+argument-hint: "[pr-number | pr-url | empty for local review]"
+allowed-tools: ["Read", "Glob", "Grep", "Agent", "Bash(git diff:*)", "Bash(git status:*)", "Bash(git log:*)", "Bash(gh pr:*)", "Bash(gh api:*)", "Bash(npx tsc:*)", "Bash(npx eslint:*)", "Bash(npm run:*)", "Bash(npm test:*)", "Write(.claude/reviews/**)"]
+---
+
+# /code-review
+
+Adapted from PRPs-agentic-eng (Wirasm) for app.
+
+**Input**: $ARGUMENTS
+
+## Mode selection
+
+- If `$ARGUMENTS` contains a PR number / URL / `--pr` → **PR Review Mode**.
+- Otherwise → **Local Review Mode**.
+
+---
+
+## Local Review Mode
+
+### Phase 1 — Gather
+
+```bash
+git diff --staged --name-only
+git diff --name-only
+```
+
+If both empty: stop with "Nothing to review."
+
+### Phase 2 — Review
+
+For each changed file:
+
+1. Read in full (not just hunk).
+2. Run reviewers in parallel (single message, multiple Agent calls):
+   - `code-reviewer` — always
+   - `silent-failure-hunter` — always
+   - `a11y-architect` — if changes touch UI (`*.tsx`, `*.jsx`, `*.vue`, `*.svelte`, `*.css`, `*.html`)
+3. Synthesise findings into a single report — dedup overlapping issues.
+
+### Phase 3 — Validate
+
+Run silently and capture pass/fail:
+
+```bash
+npm run type-check    # delegates to project's tsc config
+npm run lint
+```
+
+Note: `npm test` and `npm run build` are intentionally NOT run by default — too slow for inner-loop reviews. Add `--build` flag to opt-in.
+
+### Phase 4 — Report
+
+Print the consolidated report:
+
+```
+## Local review — <count> files
+
+### Findings
+- CRITICAL: <list or "none">
+- HIGH:     <list or "none">
+- MEDIUM:   <list or "none">
+- LOW:      <list or "none">
+
+### Validation
+| Check    | Result |
+|----------|--------|
+| tsc      | pass / fail (X errors) |
+| eslint   | pass / fail (X errors) |
+
+### Verdict
+APPROVE | WARNING | BLOCK
+
+### Suggested next step
+<one line>
+```
+
+Block commit if CRITICAL is found.
+
+---
+
+## PR Review Mode
+
+For projects that use `gh` CLI.
+
+### Phase 1 — Fetch
+
+```bash
+gh pr view <NUMBER> --json number,title,body,author,baseRefName,headRefName,changedFiles,additions,deletions,mergeStateStatus,statusCheckRollup
+gh pr diff <NUMBER>
+```
+
+If checks are pending or failing or branch has merge conflicts: stop. Report state and instruct to resolve first.
+
+### Phase 2 — Context
+
+Read once before reviewing:
+- `CLAUDE.md` (root)
+- `MISSION.md` (root)
+- PR body (intent, linked issues)
+
+### Phase 3 — Review
+
+Read each changed file at PR head — not just the diff. Run reviewers in parallel.
+
+### Phase 4 — Validate
+
+Same as local mode plus:
+
+```bash
+npm run build   # full build for PR
+```
+
+Capture pass/fail per check.
+
+### Phase 5 — Decide
+
+| Condition | Decision |
+|---|---|
+| Zero CRITICAL/HIGH, validation green | **APPROVE** |
+| Only MEDIUM/LOW, validation green | **APPROVE with comments** |
+| Any HIGH issue or validation red | **REQUEST CHANGES** |
+| Any CRITICAL issue | **BLOCK** |
+
+Draft PR → **COMMENT** only.
+Docs-only PR → lighter review, focus on factual correctness.
+
+### Phase 6 — Persist
+
+Write `.claude/reviews/pr-<NUMBER>-review.md` with:
+
+```
+# PR #<N> — <title>
+**Decision**: APPROVE | REQUEST_CHANGES | BLOCK
+**Reviewed**: <date>
+
+## Summary
+
+## Findings
+### CRITICAL
+### HIGH
+### MEDIUM
+### LOW
+
+## Validation
+| tsc | eslint | build |
+
+## Files
+```
+
+### Phase 7 — Publish
+
+```bash
+gh pr review <NUMBER> --approve --body "<summary>"
+# or
+gh pr review <NUMBER> --request-changes --body "<summary with required fixes>"
+# or for draft / informational
+gh pr review <NUMBER> --comment --body "<summary>"
+```
+
+### Phase 8 — Output to user
+
+```
+PR #<N>: <title>
+Decision: <APPROVE|REQUEST_CHANGES|BLOCK>
+
+Issues: <c> critical, <h> high, <m> medium, <l> low
+Validation: <p>/<t> checks passed
+
+Artifacts:
+  Review: .claude/reviews/pr-<N>-review.md
+  GitHub: <url>
+```
+
+---
+
+## Edge cases
+
+- **No `gh` CLI** → fall back to local mode against the PR branch (`git fetch && git diff origin/main...HEAD`); skip the publish step.
+- **Diverged branches** → suggest `git fetch origin && git rebase origin/main`.
+- **Large PRs (>50 files)** → focus source first, tests second, config/docs last.

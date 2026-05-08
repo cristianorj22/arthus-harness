@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json.schemastore.org/mcp.json",
+  "mcpServers": {
+    "code-review-graph": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": ["code-review-graph", "serve"]
+    }
+  }
+}

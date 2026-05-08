@@ -1,0 +1,30 @@
+name: mcp-code-review-graph
+version: 0.1.0
+description: code-review-graph MCP server (opt-in). Builds an incremental knowledge graph of the codebase via Tree-sitter, exposes MCP tools for token-efficient navigation/review/debug/refactor. Requires `uv` (Python tool installer) on PATH and `uv tool install code-review-graph` run once.
+requires:
+  core: ">=1.0"
+  plugins: []
+conflicts: []
+contributes:
+  files:
+    - from: files/.mcp.json
+      to: .mcp.json
+  claude:
+    skills:
+      - explore-codebase
+      - review-changes
+      - debug-issue
+      - refactor-safely
+    settingsHooks:
+      - event: Stop
+        matcher: "*"
+        command: "code-review-graph update --skip-flows"
+        timeout: 30
+      - event: SessionStart
+        matcher: ""
+        command: "code-review-graph status"
+        timeout: 10
+  docs:
+    - from: docs/mcp-code-review-graph.md
+      to: Docs/arquitetura/mcp-code-review-graph.md
+prompts: []

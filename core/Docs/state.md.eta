@@ -1,0 +1,60 @@
+---
+last-update: <%= date %>
+branch: main
+last-commit: bootstrap from arthus-harness v<%= harnessVersion %>
+maintainer: TODO (atualizar a cada sessão)
+---
+
+# State — <%= projectName %>
+
+> **Hot snapshot do projeto.** Atualizado a cada sessão de trabalho. Documento AI-handoff: a próxima sessão (humana ou Claude) lê isto e sabe onde retomar **sem precisar pedir contexto**.
+
+## Quem está mantendo
+
+- **Humano**: TODO
+- **AI**: Claude Code. Atualiza este arquivo no fim de cada sessão antes de fechar.
+
+## Branch atual
+
+- **Ativa**: `main`
+- **Último commit**: `bootstrap from arthus-harness v<%= harnessVersion %>`
+- **Status worktree**: limpo (recém-bootstrapped).
+
+## Sessão 1 — <%= date %>
+
+- Branch: main
+- Last commit: bootstrap from arthus-harness v<%= harnessVersion %>
+- Status: bootstrap concluído. Próximos passos: <% if (principlesIsLiteral) { %>revisar `Docs/produto/principios-de-experiencia.md` (Strategy A literal — adaptar exemplos GoParty pro seu domínio)<% } %><% if (principlesIsFramework) { %>preencher `Docs/produto/principios-de-experiencia/strategy-C.framework.md` (definir suas N sensações + M réguas)<% } %>, preencher `MISSION.md` TODOs, planejar primeira feature.
+
+## Estado do sistema agora
+
+### Código
+- TODO — rodar `npm install` e validar `npm run lint`, `npm run build`, `npm run type-check`.
+
+### Stack Claude Code instalada
+- **5 agents**: code-reviewer, typescript-reviewer, silent-failure-hunter, security-reviewer, a11y-architect
+- **1 slash command**: `/code-review`
+- **3 hooks**: config-protection (PreToolUse), post-edit-accumulator (PostToolUse), batch-format-typecheck (Stop)
+- **Skills core**: experience-principles<% if (hasDesignSystem) { %> + design-system-enforcement<% } %><% if (hasI18n) { %> + i18n-source-of-truth<% } %><% if (hasSupabase) { %> + supabase-rls-pattern<% } %><% if (hasPaymentAsaas) { %> + asaas-integration<% } %>
+- `MISSION.md` / `AGENTS.md` / `CLAUDE.md` na raiz
+
+## Pendências de bootstrap
+
+1. **Preencher `MISSION.md` TODOs** — invariantes específicas do seu projeto (segurança, idempotência, RBAC, migrations).
+2. <% if (principlesIsLiteral) { %>**Adaptar `Docs/produto/principios-de-experiencia.md`** — Strategy A traz exemplos literais de GoParty; substitua por exemplos do seu domínio mantendo a estrutura das 4 sensações + 5 réguas.<% } %><% if (principlesIsFramework) { %>**Preencher `Docs/produto/principios-de-experiencia/strategy-C.framework.md`** — você escolheu Strategy C (framework). Defina suas próprias N sensações-âncora e M réguas operacionais usando o framework como guia.<% } %>
+3. **Preencher `Docs/produto/PRODUTO.md`** — sua tese de produto + N dores que você resolve.
+4. **Preencher `Docs/arquitetura/arquitetura-tecnica.md`** — stack + domínios + fluxo principal.
+5. **Definir primeira feature do roadmap** em `Docs/roadmap.md`.
+
+## Como retomar na próxima sessão
+
+1. Leia este arquivo (`Docs/state.md`).
+2. `git log --oneline -10` pra confirmar último commit.
+3. Cheque pendências de bootstrap acima.
+4. **Antes de codar**: leia `MISSION.md` e a jornada relevante em `Docs/produto/jornadas/` (se existir).
+5. **Antes de commit**: `/code-review`.
+6. **Ao final da sessão**: atualize este `state.md` com o que rolou.
+
+---
+
+> Bootstrapped from arthus-harness v<%= harnessVersion %> on <%= date %>.

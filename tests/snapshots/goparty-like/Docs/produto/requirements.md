@@ -1,0 +1,95 @@
+---
+last-update: 2026-05-08
+status: ativo (esqueleto — preencher)
+maintainer: humano (decisão), AI (extração + sync)
+gatilho-update: toda feature nova ganha 1+ RF antes de codar
+---
+
+# Requirements — app
+
+> Catálogo numerado e rastreável de **Requisitos Funcionais (RF)**, **Não-Funcionais (RNF)** e **Regras de Negócio (RN)**. IDs estáveis (RF-XX.YY) — referenciados em PRPs, PRs, testes e commits.
+
+## Convenções
+
+- **RF-XX.YY** — Funcional. XX = domínio (ex: 01 organizador, 02 anfitrião, 03 booking). YY = sequência.
+- **RNF-XX** — Não-funcional (segurança, perf, a11y, i18n).
+- **RN-XX** — Regra de negócio (invariante, fundação `MISSION.md`).
+
+Status: ✅ Implementado · 🚧 Em andamento · 📋 Backlog · 🔒 Bloqueado.
+
+## RN — Regras de Negócio (invariantes)
+
+Refletem `MISSION.md` em forma testável.
+
+| ID | Regra | Justificativa | Status |
+|---|---|---|---|
+| RN-01 | TODO — invariante de segurança/dados | `MISSION.md §1` | 📋 |
+| RN-02 | TODO — invariante de integridade transacional | `MISSION.md §2` | 📋 |
+
+<!--
+Exemplo (referência — apagar após preencher):
+
+| RN-01 | Toda tabela com dado de usuário tem RLS habilitada com policies por op (select/insert/update/delete) | `MISSION.md §1.1` | ✅ |
+| RN-02 | Service-role key nunca aparece em código de cliente, apenas em edge functions | `MISSION.md §1.1` | ✅ |
+| RN-03 | Webhook de pagamento sempre valida assinatura/HMAC; sem validação = vulnerabilidade crítica | `MISSION.md §1.1` | 🚧 |
+-->
+
+## RF — Requisitos Funcionais
+
+### Domínio 01 — TODO (ex: Usuário/Auth)
+
+| ID | Requisito | Critério de aceitação | Status |
+|---|---|---|---|
+| RF-01.1 | TODO | TODO | 📋 |
+
+<!--
+Exemplo (referência — apagar após preencher):
+
+| RF-01.1 | Cadastro com email + senha + verificação de email | Usuário recebe email com link único; clica → conta ativada | ✅ |
+| RF-01.2 | Recuperação de senha via email | Link único expira em 1h; senha redefinida sem mostrar a antiga | ✅ |
+-->
+
+### Domínio 02 — TODO
+
+| ID | Requisito | Critério de aceitação | Status |
+|---|---|---|---|
+| RF-02.1 | TODO | TODO | 📋 |
+
+## RNF — Requisitos Não-Funcionais
+
+### Segurança
+
+| ID | Requisito | Critério |
+|---|---|---|
+| RNF-01 | TODO | TODO |
+
+### Performance
+
+| ID | Requisito | Critério |
+|---|---|---|
+| RNF-10 | TODO (ex: TTI < 3s em 4G) | Lighthouse mobile ≥ 80 |
+
+### Acessibilidade
+
+| ID | Requisito | Critério |
+|---|---|---|
+| RNF-20 | WCAG 2.1 AA em fluxos críticos | axe scan zero violations critical/serious |
+
+### i18n
+
+| ID | Requisito | Critério |
+|---|---|---|
+| RNF-30 | TODO — paridade entre locales | `npm run i18n:check` zero diffs |
+
+
+## Cross-links
+
+- [`PRODUTO.md`](./PRODUTO.md) — visão de produto
+- [`../../MISSION.md`](../../MISSION.md) — invariantes técnicas
+- [`./principios-de-experiencia.md`](./principios-de-experiencia.md) — invariantes emocionais
+- [`./jornadas/`](./jornadas/) — passos por persona
+- [`../arquitetura/arquitetura-tecnica.md`](../arquitetura/arquitetura-tecnica.md) — implementação
+
+---
+
+> Bootstrapped from arthus-harness v1.0.0 on 2026-05-08.

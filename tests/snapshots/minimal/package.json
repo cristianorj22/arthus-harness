@@ -1,0 +1,12 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "app — bootstrapped from arthus-harness v1.0.0",
+  "type": "module",
+  "scripts": {
+    "check:all": "echo \"no checks configured\""
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}

@@ -1,0 +1,149 @@
+---
+last-update: <%= date %>
+status: framework-template
+maintainer: <%= projectName %>
+strategy: C-framework
+related:
+  - MISSION.md
+  - ./manifest.yaml
+---
+
+# Princípios de Experiência — <%= projectName %>
+
+> **Strategy C (framework, opt-in).** Este arquivo é um scaffold vazio com seções tipadas. Você define **suas** sensações-âncora e réguas operacionais. A skill `experience-principles` lê este arquivo dinamicamente — não tem nada hardcoded.
+>
+> Se preferir começar com a versão GoParty literal, troque por `./strategy-A.literal.md`. Você pode manter as duas no repo se quiser referência.
+
+## O princípio central
+
+<!-- INSTRUÇÃO: 1-2 frases. Pergunta-âncora: "se nossa feature funcionasse
+     perfeitamente, qual sensação a pessoa sentiria?" Não é o que vendemos
+     (feature) — é o que a pessoa sente quando funciona.
+
+     Exemplos canônicos:
+     - GoParty: "Vendemos a sensação de pagar e poder dormir tranquilo."
+     - Apple: "Vendemos a sensação de que tudo simplesmente funciona."
+     - Stripe: "Vendemos a sensação de que pagamento não é seu problema."
+     - Notion: "Vendemos a sensação de que sua cabeça pode descansar." -->
+
+> **TODO**: defina o princípio central do `<%= projectName %>`.
+
+## As N sensações-âncora
+
+<!-- INSTRUÇÃO: liste de 3 a 5 sensações que você quer entregar em momentos
+     específicos da jornada. Cada uma tem:
+     1. Frase âncora curta (entre aspas, em primeira pessoa do usuário)
+     2. Surface típica onde aparece
+     3. Construída por: 2-3 padrões concretos
+     4. Quebrada por: 2-3 sinais de violação
+
+     Princípio: cada sensação deve ter um momento da jornada onde você consegue
+     apontar exatamente onde ela é entregue ou ameaçada. Sensação abstrata sem
+     surface concreto vira decoração — não funciona como gate. -->
+
+### 1. [TODO: nome da sensação] — "[TODO: frase âncora]"
+
+| Campo | Conteúdo |
+|---|---|
+| Surface típica | TODO |
+| Construída por | TODO |
+| Quebrada por | TODO |
+
+### 2. [TODO: nome] — "[TODO: frase]"
+
+| Campo | Conteúdo |
+|---|---|
+| Surface típica | TODO |
+| Construída por | TODO |
+| Quebrada por | TODO |
+
+<!-- adicione 1-3 sensações a mais conforme necessário -->
+
+## As M réguas operacionais
+
+<!-- INSTRUÇÃO: réguas são regras concretas, acionáveis, que reviewers possam
+     citar ("Régua 3 violada"). Devem cascatear do princípio central.
+
+     Critério de qualidade: uma régua boa tem
+     1. Nome curto e memorável (≤ 6 palavras)
+     2. Tabela ❌ Não / ✅ Sim com 3-4 exemplos do SEU domínio
+     3. Sinais de violação no código (grep targets)
+     4. Severidade ao reportar (HIGH em flow crítico, MEDIUM nos demais)
+
+     GoParty tem 5 réguas. Outros produtos podem ter 3-7. Mais que 7 = ninguém
+     lembra; ninguém aplica. -->
+
+### Régua 1 — [TODO: nome curto]
+
+> [TODO: 1-2 frases descrevendo o princípio.]
+
+| ❌ Não | ✅ Sim |
+|---|---|
+| TODO | TODO |
+| TODO | TODO |
+
+**Sinais de violação no código:**
+
+- TODO
+- TODO
+
+### Régua 2 — [TODO: nome]
+
+[mesma estrutura]
+
+<!-- adicione mais réguas conforme necessário -->
+
+## Anti-padrão geral
+
+<!-- INSTRUÇÃO: o anti-padrão é o reflexo errado mais comum quando alguém vê um
+     problema de produto. Em GoParty: "vamos resolver isso adicionando feature".
+     Pode ser também "vamos resolver com mais conteúdo", "vamos refatorar tudo",
+     "vamos contratar mais devs". O sintoma + a re-pergunta certa. -->
+
+> [TODO: o reflexo errado].
+
+Sintoma: TODO
+
+Re-pergunta correta: TODO
+
+## Como usar este documento
+
+**Quando invocar:**
+
+- TODO: que tipo de PR/decisão dispara consulta a esse doc?
+
+**Quem invoca:**
+
+- Você, em decisões de produto/UX/copy.
+- Reviewers (`code-reviewer`, `a11y-architect`).
+- Skill `experience-principles` (auto-fire — ver `paths:` no `.claude/skills/experience-principles/SKILL.md`).
+
+## Como dialoga com outros docs
+
+| Doc | Relação |
+|---|---|
+| `MISSION.md` | O que **nunca quebrar** tecnicamente (segurança, RLS, idempotência). Este doc define o que **sempre preservar** emocionalmente. Complementares. |
+| TODO: outros docs do `<%= projectName %>` | TODO |
+
+---
+
+## Manifest sincronizado
+
+Este arquivo deve estar em sincronia com `./manifest.yaml`, que é a forma estruturada lida por validador (`scripts/experience-check.mjs`, opt-in).
+
+```yaml
+# manifest.yaml — declarativo, espelha as seções acima
+principio-central: "TODO"
+sensacoes:
+  - { id: <id>, label: "TODO", surface: [TODO], priority: HIGH }
+reguas:
+  - { id: 1, name: "TODO", priority: HIGH }
+```
+
+> Se você não vai usar o validador, pode ignorar `manifest.yaml`. A skill `experience-principles` funciona apenas com este `.md`.
+
+---
+
+> **Atualização**: princípios emergem de padrões repetidos. Adicione régua nova só depois de ver a violação 3+ vezes. Toda atualização vem com explicação no commit.
+
+> **Source**: scaffold gerado por `arthus-harness v<%= harnessVersion %>` em <%= date %>.

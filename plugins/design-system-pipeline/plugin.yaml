@@ -1,0 +1,54 @@
+name: design-system-pipeline
+version: 0.1.0
+description: Design tokens pipeline — DESIGN.md (source-of-truth) → src/index.css (generated) with sync + drift validator.
+
+requires:
+  core: ">=1.0"
+  plugins: []
+
+conflicts: []
+
+contributes:
+  files:
+    - from: scripts/sync-design-tokens.mjs
+      to: scripts/sync-design-tokens.mjs
+    - from: scripts/design-check.mjs
+      to: scripts/design-check.mjs
+    - from: templates/DESIGN.md.eta
+      to: Docs/design-system/DESIGN.md
+    - from: templates/index.css.template
+      to: src/index.css
+
+  claude:
+    skills:
+      - design-system-enforcement
+    hooks:
+      - design-quality-check
+    commands:
+      - design-check
+    settingsHooks:
+      - event: PostToolUse
+        matcher: "Edit|Write|MultiEdit"
+        command: "node .claude/hooks/design-quality-check.cjs"
+        timeout: 5
+
+  docs:
+    - from: docs/PIPELINE.md
+      to: Docs/design-system/PIPELINE.md
+
+  package:
+    scripts:
+      "design:sync": "node scripts/sync-design-tokens.mjs"
+      "design:check": "node scripts/design-check.mjs"
+      "design:check:strict": "node scripts/design-check.mjs --strict"
+    deps: {}
+    devDeps: {}
+
+  ci:
+    jobs:
+      - name: design-system-check
+        run: "npm run design:check"
+
+  env: []
+
+prompts: []

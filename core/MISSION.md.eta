@@ -1,0 +1,126 @@
+# MISSION — <%= projectName %>
+
+Princípios não-negociáveis. Estes invariantes são mais importantes que estilo, velocidade ou conveniência. Se uma regra abaixo conflitar com uma instrução de tarefa, **pare e pergunte**.
+
+`CLAUDE.md` descreve **como operar**; este arquivo descreve **o que nunca quebrar**.
+
+---
+
+## 1. Segurança e dados do usuário
+
+### 1.1 Invariantes de aplicação
+
+> **TODO** — adapte os invariantes específicos do seu projeto. Os 4 abaixo são genéricos; mantenha e estenda.
+
+- **Nenhum segredo (API key, service role, password, webhook secret) aparece em código de cliente.** Só em servidor / edge functions, lendo de env. Cliente carrega apenas chaves publicáveis (anon).
+- **Toda tabela com dado de usuário tem controle de acesso explícito.** Sem `using (true)` / sem rota pública sem autenticação.
+- **Todo webhook externo valida assinatura/HMAC** antes de processar. Webhook sem verificação de origem é tratado como vulnerabilidade crítica.
+- **PII e documentos sensíveis nunca aparecem em log, console.log ou mensagem de erro retornada ao cliente.**
+<% if (hasPaymentAsaas) { %>- **Valores de cobrança vêm do servidor**, não do cliente — sempre.
+<% } %>
+### 1.2 Arquivos sensíveis — nunca ler, indexar, citar ou versionar
+
+Os caminhos abaixo NUNCA podem ser lidos, processados, citados ou usados para gerar exemplos. O `.gitignore` reforça em camada de versionamento; os agentes reforçam em camada de uso.
+
+```
+**/.env  **/.env.*  **/.envrc  **/secrets.*  **/.secrets  **/.vault
+**/.npmrc  **/.pypirc  **/.dockerconfigjson
+**/id_rsa*  **/id_dsa*  **/id_ecdsa*  **/id_ed25519*  **/known_hosts  **/.ssh/**
+**/.aws/**  **/.azure/**  **/.gcloud/**  **/credentials  **/kubeconfig
+**/*.key  **/*.pem  **/*.crt
+**/secrets/**  **/vault/**  **/private/**  **/secure/**  **/keys/**  **/config/keys/**
+```
+
+Se alguém tentar colar credenciais ou pedir para exibir um segredo: responda **"[REDACTED] — conteúdo sensível não pode ser exibido."** e oriente a usar variáveis de ambiente / cofre.
+
+### 1.3 Placeholders padrão em exemplos
+
+Em qualquer trecho de código, doc, ou config, use placeholders explícitos — nunca valores reais (mesmo que de teste / sandbox):
+
+```
+API_KEY=<PLACEHOLDER>          PASSWORD=<PLACEHOLDER>
+SECRET=<PLACEHOLDER>           TOKEN=<PLACEHOLDER>
+SERVICE_ROLE_KEY=<PLACEHOLDER> WEBHOOK_SECRET=<PLACEHOLDER>
+```
+
+`.env.example` é o único lugar do repo que pode conter chaves de variáveis com valores ilustrativos — sempre placeholders, nunca valores válidos.
+
+### 1.4 Resposta a incidentes
+
+Se um segredo vazar (push acidental, log, screenshot):
+
+1. **Isolar** — congelar mudanças que possam disseminar (cancelar deploy em andamento).
+2. **Revogar** no provedor (dashboards do serviço afetado).
+3. **Rotacionar** todos os segredos relacionados, mesmo os que parecem não-comprometidos.
+4. **Limpar** do histórico se aplicável (`git filter-repo` em última instância — destrutivo).
+5. **Documentar** em `Docs/security/incidents/<YYYY-MM-DD>_<scope>.md` (criar se não existir) — escopo, ação, verificação.
+
+> TODO — adicionar status atual de segredos: quais já vazaram em commits passados, quais precisam rotação, quem é responsável.
+
+## 2. Integridade transacional
+
+<% if (hasPaymentAsaas) { %>- **Idempotência em pagamentos**: replay de webhook não duplica cobrança nem credita duas vezes (UNIQUE em `payment_id` + dedupe table).
+- **Valores de cobrança sempre vêm do servidor**: cliente envia identificadores, servidor calcula e cobra.
+- **Transações Postgres curtas**: nenhuma chamada externa (Asaas, gateway de KYC) dentro de transação com `for update`.
+<% } else { %>- **Operações com side-effects externos têm idempotency key.** Replay de operação não duplica efeito.
+- **Soft delete** em entidades com histórico legal/financeiro: `deleted_at timestamptz` + audit trail. Hard delete só com migration documentada.
+- **Transações de DB curtas**: nenhuma chamada externa dentro de transação com lock.
+<% } %>
+
+## 3. Isolamento e RBAC
+
+> **TODO** — preencher conforme escopo do projeto.
+
+- Todo endpoint sensível verifica role explícito antes de executar (não apenas autenticação — autorização também).
+- Cliente NUNCA é fonte autoritativa de role/permission. Servidor lê do storage e valida.
+- TODO: documentar matriz de roles × recursos × operações (CRUD).
+
+## 4. Migrations <% if (hasSupabase) { %>(Supabase / Postgres)<% } else { %>(esquema de dados)<% } %>
+
+<% if (hasSupabase) { %>- Toda migration tem nome `YYYYMMDDHHMMSS_<snake_case>.sql`.
+- Idempotente sempre que possível (`if not exists`, `or replace`).
+- RLS habilitada e policy escrita na **mesma migration** que cria a tabela — nunca em outra subsequente.
+- FK e colunas referenciadas por RLS recebem índice na **mesma migration**.
+- Após rodar, regenera tipos TypeScript do schema.
+<% } else { %>- Migrations são **forward-only** — nunca editar migration já mergeada em main.
+- Cada migration tem um id ordenado (timestamp ou sequência) e descrição clara.
+- Toda migration que cria entidade nova tem migration de rollback documentada.
+- Migration que muda tipo de dado em coluna existente requer plano de backfill antes do merge.
+<% } %>
+
+## 5. Qualidade de código
+
+> **TODO** — ajustar conforme contexto. Padrões abaixo são genéricos.
+
+- **Componente > 400 linhas ou > 6 estados internos requer pausa.** Antes de adicionar mais um, perguntar: vira hook custom? `useReducer`? Componente filho?
+- **TypeScript loose é dívida, não destino.** Plano: `strictNullChecks` e `noImplicitAny` ligados como warning primeiro, erro depois. Não relaxar mais.
+- **Falha silenciosa é crítica.** `catch {}`, `.catch(() => [])`, fallbacks que escondem erro de rede ou negação de permissão — bug. Ver agente `silent-failure-hunter`.
+- **`console.log` não vai para `main`.** Logger estruturado em servidor; nada em produção no cliente.
+
+<% if (hasI18n) { %>## 6. i18n — fonte única
+
+- Toda string visível ao usuário passa pelo dicionário (`t('chave')`).
+- **Source-of-truth** = um único locale. Outros locales replicam estrutura — paridade estrita.
+- Nada de concatenação `t('prefix') + count + t('suffix')`. Use placeholders: `t('msg', { count })`.
+- Validador `npm run i18n:check` bloqueia drift no CI.
+<% } %>
+
+## 7. Process
+
+- **Decisões abandonadas não viram código zumbi.** Quando uma tecnologia/lib é removida, eliminar todas as referências em `src/`/configs/CI — código órfão é dívida, não feature.
+- **Documento desatualizado é pior que documento ausente.** Antes de seguir um doc em `Docs/`, conferir data e cruzar com o código.
+- **Branch policy**: `feat/*` para feature, `fix/*` para bug, `chore/*` para limpeza. Squash merge em `main` com mensagem **PT-BR conventional** que descreve o **porquê**.
+
+---
+
+## Como Claude usa este arquivo
+
+- `CLAUDE.md` instrui o agente a **ler `MISSION.md` antes de qualquer mudança em**: auth, secrets, integração externa, schema de dados.
+- Agentes de review (`code-reviewer`, `security-reviewer`) tomam este arquivo como autoridade para flag de severidade.
+- Conflito entre `MISSION.md` e instrução de tarefa → o agente **pausa e pergunta** ao usuário; nunca silenciosamente desvia.
+
+---
+
+Atualizar este arquivo é decisão consciente — sempre acompanhada de explicação no commit message.
+
+> Bootstrapped from arthus-harness v<%= harnessVersion %> on <%= date %>.

@@ -1,0 +1,63 @@
+---
+last-update: 2026-05-08
+status: ativo
+maintainer: TODO (decisões), Claude (manutenção/checklist)
+---
+
+# Roadmap — app
+
+> Documento mestre de execução. Fonte da verdade de prioridade.
+
+## Princípios de priorização
+
+> TODO — adaptar para o seu projeto. Sugestão de partida:
+
+1. **Segurança e confiança primeiro.** Invariantes do `MISSION.md` são bloqueadores absolutos.
+2. **Path-to-revenue antes de polish.** Funcionalidades que destravam transação > polimento de UX.
+3. **Reduzir dívida durante features**, não em sprints isolados — refactor oportunístico só na linha tocada.
+4. **Solo dev — escopo realista.** Cada item pequeno o suficiente pra fechar em 1-2 sessões.
+
+## Histórico (Fases concluídas)
+
+| Fase | Período | Resumo |
+|---|---|---|
+| **0 — Bootstrap** | 2026-05-08 | Bootstrap do harness arthus v1.0.0. `.claude/` (agents+commands+hooks+skills), `MISSION.md`, `CLAUDE.md`, `AGENTS.md`, scaffold de Docs/ canônico. |
+
+## Fase atual — TBD
+
+> TODO — definir Fase 1 baseada em: qual dor mais aguda, qual feature destrava o resto, qual risco maior se não for resolvido.
+
+| Sub-fase | Escopo | Estimativa | Critério "feito" |
+|---|---|---|---|
+| **1.1** | TODO | TODO | TODO |
+
+## Backlog priorizado (Fase 2+)
+
+### Dívidas técnicas — alta prioridade
+
+- [ ] TODO
+
+### Funcionalidades — média prioridade
+
+- [ ] TODO
+
+### Infraestrutura — média prioridade
+
+- [ ] TODO
+
+## Gates de qualidade por fase
+
+| Fase | Gate |
+|---|---|
+| 1 | TODO |
+
+## Como acompanhar progresso
+
+- **Estado atual da branch**: `Docs/state.md` (atualizado a cada sessão)
+- **Decisões arquiteturais**: `Docs/arquitetura/arquitetura-tecnica.md`
+- **Princípios não-negociáveis**: `MISSION.md`
+- **Backlog operacional vivo**: este arquivo + issues no GitHub
+
+---
+
+> Bootstrapped from arthus-harness v1.0.0 on 2026-05-08.

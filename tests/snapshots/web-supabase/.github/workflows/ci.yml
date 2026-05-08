@@ -1,0 +1,111 @@
+name: CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  lint-and-build:
+    name: Lint & build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build (skipped if no build script)
+        run: |
+          if npm run | grep -q "^  build$"; then
+            npm run build
+          else
+            echo "No build script defined — skipping."
+          fi
+
+  type-check:
+    name: TypeScript (informational)
+    runs-on: ubuntu-latest
+    continue-on-error: true # remove once strict mode lands
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: tsc --noEmit
+        run: npm run type-check
+
+  secrets-scan:
+    name: Secrets scan (gitleaks)
+    runs-on: ubuntu-latest
+    # Bloqueia PR se vazar secret. Rastreia também histórico via fetch-depth: 0.
+    permissions:
+      contents: read
+      pull-requests: read
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history para gitleaks varrer commits passados
+
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  npm-audit:
+    name: npm audit (high+)
+    runs-on: ubuntu-latest
+    continue-on-error: true # informational até estabilizar deps
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Audit (high+)
+        run: npm audit --audit-level=high
+
+  design-and-i18n:
+    name: Design system & i18n parity
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Verify DESIGN.md ↔ generated CSS in sync
+        run: npm run design:check
+
+

@@ -1,0 +1,8 @@
+{
+  "app": {
+    "title": "<%= projectName %>"
+  },
+  "errors": {
+    "generic": "Something didn't go as expected. Could you try again?"
+  }
+}

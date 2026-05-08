@@ -1,0 +1,25 @@
+{
+  "name": "app",
+  "version": "0.1.0",
+  "private": true,
+  "description": "app — bootstrapped from arthus-harness v1.0.0",
+  "type": "module",
+  "scripts": {
+    "db:reset": "supabase db reset",
+    "supabase:gen-types": "supabase gen types typescript --local > src/integrations/supabase/types.ts",
+    "design:sync": "node scripts/sync-design-tokens.mjs",
+    "design:check": "node scripts/design-check.mjs",
+    "design:check:strict": "node scripts/design-check.mjs --strict",
+    "test:e2e": "playwright test",
+    "test:e2e:install": "playwright install --with-deps",
+    "check:all": "npm run design:check"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0"
+  },
+  "devDependencies": {
+    "supabase": "^1.200.0",
+    "@playwright/test": "^1.45.0",
+    "@axe-core/playwright": "^4.9.0"
+  }
+}

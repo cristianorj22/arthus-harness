@@ -1,0 +1,67 @@
+---
+version: 0.1.0
+
+# Colors are defined as hex values (#RRGGBB).
+# The sync script converts them to HSL channels in src/index.css
+# (matches Tailwind shadcn convention: hsl(var(--name))).
+colors:
+  # primary: "#1E3A8A"
+  # primary-foreground: "#FFFFFF"
+  # background: "#FFFFFF"
+  # foreground: "#0F172A"
+  # muted: "#F1F5F9"
+  # muted-foreground: "#64748B"
+  # border: "#E2E8F0"
+  # accent: "#F59E0B"
+
+# Aliases — point one token name at another.
+# Useful for shadcn compatibility where component code expects
+# stable names (e.g., --primary, --secondary) but you want to
+# rename the underlying brand token.
+aliases:
+  # primary: brand-blue
+  # secondary: muted
+
+# Border radius scale (raw CSS values, not converted).
+# `rounded.lg` is exposed as `--radius` for shadcn defaults.
+rounded:
+  sm: "0.25rem"
+  md: "0.5rem"
+  lg: "0.75rem"
+  xl: "1rem"
+---
+
+# Design System — app
+
+> **Source-of-truth for design tokens.**
+>
+> Edit this file (front-matter YAML above), then run:
+>
+> ```bash
+> npm run design:sync
+> ```
+>
+> to regenerate `src/index.css`. The CI job `design-system-check` (or
+> `npm run design:check` locally) blocks merges when this file and
+> `src/index.css` drift apart.
+
+## How to add a token
+
+1. Add the entry to the front-matter (`colors`, `aliases`, or `rounded`).
+2. Run `npm run design:sync` to update `src/index.css`.
+3. Use the token from your code — Tailwind utility (`bg-primary`,
+   `rounded-lg`) or CSS var (`hsl(var(--primary))`).
+4. Never hardcode hex literals in `src/`. The validator
+   (`npm run design:check:strict`) will catch them.
+
+## How to add a new token category
+
+The current sync script understands `colors`, `aliases`, and `rounded`.
+For typography, spacing, shadows, etc., extend `scripts/sync-design-tokens.mjs`
+with a new `buildXxxBlock(tokens)` helper. Keep the contract: this script
+owns everything between `:root {` and the matching `}` in `src/index.css`.
+
+## Pipeline
+
+See `Docs/design-system/PIPELINE.md` for the full DESIGN.md → src/index.css
+contract and where Tailwind plugs in.

@@ -1,0 +1,41 @@
+name: payment-asaas
+version: 0.1.0
+description: Asaas payment integration patterns — webhook HMAC, idempotency, server-side amount, pt-BR error mapping, log redaction.
+requires:
+  core: ">=1.0"
+  plugins: []
+conflicts: []
+contributes:
+  files:
+    - from: templates/asaas-client.ts.template
+      to: src/integrations/asaas/client.ts
+    - from: templates/webhook-handler.ts.template
+      to: src/integrations/asaas/webhook-handler.ts
+    - from: templates/idempotency.ts.template
+      to: src/integrations/asaas/idempotency.ts
+  claude:
+    skills:
+      - asaas-integration
+    agents: []
+    hooks: []
+    commands: []
+    settingsHooks: []
+  docs:
+    - from: docs/asaas.md
+      to: Docs/financeiro/asaas.md
+  package:
+    scripts: {}
+    deps: {}
+    devDeps: {}
+  ci:
+    jobs: []
+  env:
+    - ASAAS_API_URL
+    - ASAAS_API_KEY
+    - ASAAS_MAIN_WALLET_ID
+    - ASAAS_WEBHOOK_SECRET
+prompts:
+  - name: asaasEnv
+    message: "Asaas environment (sandbox/production)"
+    type: input
+    optional: true

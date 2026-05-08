@@ -1,0 +1,15 @@
+[
+  {
+    "_comment": "Surface → journey mapping. Add entries when you create a journey doc.",
+    "_format": "{ match: <substring of relative path>, journey: <relative-path-from-jornadas> }",
+    "_example": "Remove this object and the ones below; add real entries."
+  },
+  {
+    "match": "src/components/checkout/",
+    "journey": "user/checkout.md"
+  },
+  {
+    "match": "src/components/onboarding/",
+    "journey": "user/onboarding.md"
+  }
+]

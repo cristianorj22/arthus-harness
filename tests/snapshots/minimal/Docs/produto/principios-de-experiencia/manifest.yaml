@@ -1,0 +1,31 @@
+# manifest.yaml — declarative form of principios-de-experiencia.md
+# Read by scripts/experience-check.mjs (opt-in validator) and by skill experience-principles
+# for structured queries.
+#
+# Edit alongside the .md file. If you only use the .md narrative, ignore this file.
+
+principio-central: "TODO"
+
+sensacoes:
+  # Each sensação has: id, label, primary surface, priority, notes
+  # - id: confianca
+  #   label: "Confiança"
+  #   surface: ["checkout", "primeira-reserva"]
+  #   priority: HIGH
+  #   built-by: ["clear language", "visible timelines"]
+  #   broken-by: ["financial jargon", "enigmatic status"]
+  - id: TODO
+    label: "TODO"
+    surface: []
+    priority: HIGH
+
+reguas:
+  # Each régua has: id, name, priority, severity-when-violated
+  # - id: 1
+  #   name: "Nunca culpar o usuário"
+  #   priority: HIGH
+  #   severity-default: HIGH
+  #   severity-in-critical-flow: HIGH
+  - id: 1
+    name: "TODO"
+    priority: HIGH

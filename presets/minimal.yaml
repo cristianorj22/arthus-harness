@@ -1,0 +1,4 @@
+name: minimal
+description: Core only — no plugins. Pick later via `arthus-harness add-plugin <name>`.
+plugins: []
+principles: A

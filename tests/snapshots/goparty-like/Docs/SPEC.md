@@ -1,0 +1,172 @@
+---
+version: 0.1.0
+last-update: 2026-05-08
+status: stub
+maintainer: TODO
+related:
+  - ../MISSION.md
+  - ./sdd-guide.md
+  - ./produto/principios-de-experiencia.md
+  - ./roadmap.md
+---
+
+# SPEC — app
+
+> **Especificação formal Spec-Driven.** Esta é a **fonte da verdade dos contratos** entre componentes. Mude aqui antes de implementar. Sobre a metodologia: [`./sdd-guide.md`](./sdd-guide.md).
+>
+> **Como ler este doc:** §2 (contratos) é o coração — onde cada componente declara o que recebe, o que entrega, e como sabemos que entregou certo. As outras seções dão contexto.
+
+**Status global:** `[STUB]` — preencher conforme o projeto evolui. Cada subseção tem seu próprio status; mudanças em `[STABLE]` exigem ADR.
+
+---
+
+## 1. Visão geral
+
+> O sistema em camadas. 1-2 parágrafos descrevendo o que ele faz e como os componentes se relacionam. Diagrama ASCII ou Mermaid se ajudar a leitura.
+
+**TODO** — descrever camadas/componentes do `app`.
+
+```
+┌──────────────────────────────────────────────────────┐
+│  TODO — UI / API / workers / DB / external services  │
+└──────────────────────────────────────────────────────┘
+```
+
+Para detalhe arquitetural completo, ver [`./arquitetura/arquitetura-tecnica.md`](./arquitetura/arquitetura-tecnica.md).
+
+---
+
+## 2. Contratos de componentes
+
+> Cada componente com **superfície pública** (consumido por outro componente) tem um contrato `Input → Output → Acceptance → Status`. Componentes internos sem superfície não precisam contrato formal aqui.
+>
+> Use o template abaixo. Status follows the lifecycle `[STUB]` → `[DRAFT]` → `[STABLE]`. Ver [`./sdd-guide.md`](./sdd-guide.md) para regras.
+
+### 2.1 `<componente-exemplo>` `[STUB]`
+
+**Input:**
+- `campo_a`: tipo concreto + descrição (ex: `string` formato `YYYY-MM-DD`)
+- `campo_b`: tipo (ex: `list of {id: string, qty: number}`)
+
+**Output:**
+- `resultado`: tipo + descrição
+- `metadados`: `{contagem_processadas, contagem_falhadas}`
+
+**Acceptance:**
+- AC-1: critério mensurável (ex: "todo input válido produz output em ≤ 200ms p99")
+- AC-2: critério mensurável (ex: "rodar 2x mesmo input = mesmo output — idempotente")
+- AC-3: critério mensurável
+
+**Status:** `[STUB]` — preencher quando o componente sair do papel.
+
+<!--
+EXEMPLO (apague ao preencher):
+
+### 2.X `auth-token-issuer`
+
+**Input:**
+- `email`: string (validado por `zod.email()`)
+- `password`: string (≥ 8 chars)
+
+**Output:**
+- `access_token`: JWT (15 min)
+- `refresh_token`: opaque token (30 days, stored in DB)
+- `expires_at`: ISO 8601
+
+**Acceptance:**
+- AC-1: credenciais inválidas retornam 401 sem distinguir "email não existe" vs "senha errada" (timing attack guard)
+- AC-2: token JWT é assinado com chave em vault (nunca hardcoded — ver MISSION §1)
+- AC-3: refresh_token rotaciona a cada uso (token previously valid becomes invalid)
+
+**Status:** `[STABLE]` — locked desde v0.5.0. Mudança requer ADR-NNN.
+-->
+
+### 2.2 `<outro-componente>` `[STUB]`
+
+**TODO** — adicionar contratos conforme componentes ganham superfície pública.
+
+---
+
+## 3. Modelo de dados
+
+> Onde cada entidade vive (autoridade, fonte de verdade) + cadência de atualização. Importante quando há múltiplas fontes (DB principal, cache, planilha externa, file storage).
+
+### 3.1 Onde cada entidade vive
+
+| Entidade | Local autoridade | Cadência | Notas |
+|---|---|---|---|
+| `usuários` | Postgres `auth.users` + tabela `profiles` | Em tempo real | RLS em `profiles` (ver MISSION §1) |
+| `<TODO entidade>` | TODO | TODO | TODO |
+| `<TODO entidade>` | TODO | TODO | TODO |
+
+### 3.2 Cache, snapshots, materialized views
+
+> Onde o sistema tem cópia derivada de outra fonte. Indicar autoridade + reconciliação.
+
+**TODO** — listar quando aplicável.
+
+---
+
+## 4. Fluxos críticos
+
+> Apenas fluxos com **3+ componentes** ou **HITL/async** explícito. Fluxos lineares ficam descritos no contrato do componente. Use Mermaid.
+
+### 4.1 `<nome-do-fluxo>` `[STUB]`
+
+```mermaid
+sequenceDiagram
+  participant U as User
+  participant A as Component A
+  participant B as Component B
+  U->>A: TODO action
+  A->>B: TODO call
+  B-->>A: TODO response
+  A-->>U: TODO result
+```
+
+**Disparado por:** TODO (cron, evento, ação user).
+**Falhas:** TODO (retry, fallback, HITL).
+**Métricas:** TODO (latência alvo, taxa de erro aceitável).
+
+---
+
+## 5. Critérios de aceitação globais
+
+> Invariantes **cross-cutting** que nenhum contrato individual possui. Estes complementam — não substituem — `MISSION.md` (não-negociáveis técnicos) e `principios-de-experiencia.md` (emocionais).
+
+| ID | Critério | Como medimos |
+|---|---|---|
+| AC-G01 | TODO — exemplo: "Toda decisão sensível é auditada (quem, quando, o quê, por quê)" | Audit log presente em endpoint X, retenção ≥ N meses |
+| AC-G02 | TODO — exemplo: "Latência p99 do fluxo crítico < 500ms" | Dashboard de observabilidade |
+| AC-G03 | TODO | TODO |
+
+---
+
+## 6. Plano de testes
+
+> Mapping AC → arquivo de teste. **Toda AC tem ≥ 1 teste** ou está marcada como `[STUB]` com pendência citável.
+
+### 6.1 Testes unitários
+- Convenção: nome `test_AC-<id>_<descrição_curta>` quando o teste mapeia 1:1 a um AC.
+- Exemplo: `test_AC-1_idempotencia_rodar_2x_produz_mesmo_output`
+
+### 6.2 Testes de contrato
+- Validar Input/Output de cada componente em §2 contra schema (zod, JSON Schema, ou similar).
+- Goldens: 1 ciclo completo de exemplo por fluxo crítico em §4.
+
+### 6.3 Cobertura mínima
+- TODO — definir target (ex: 80% nas capabilities; 100% nas regras de §5).
+
+---
+
+## 7. Changelog
+
+> Toda mudança de contrato `[STABLE]` requer entrada aqui + ADR.
+
+| Versão | Data | Autor | Mudança |
+|---|---|---|---|
+| 0.1.0 | 2026-05-08 | bootstrap | Esqueleto inicial gerado por arthus-harness v1.0.0 |
+
+---
+
+> **Como evoluir este doc**: ver [`./sdd-guide.md`](./sdd-guide.md). Resumo: contratos passam por `[STUB]` → `[DRAFT]` → `[STABLE]`; quebra de `[STABLE]` exige ADR formal e plano de migração.
