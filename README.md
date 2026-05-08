@@ -1,6 +1,16 @@
 # arthus-harness
 
-> Generic Claude Code harness engineering kit. Bootstraps new projects with **3 layers of protection** (process · technical invariants · experience invariants) — extracted from `go-party-venue-hub`.
+<p align="center">
+  <strong>English</strong> ·
+  <a href="README.pt-BR.md">Português (Brasil)</a> ·
+  <a href="README.zh-CN.md">简体中文</a> ·
+  <a href="README.zh-TW.md">繁體中文</a> ·
+  <a href="README.ja.md">日本語</a> ·
+  <a href="README.ko.md">한국어</a> ·
+  <a href="README.tr.md">Türkçe</a>
+</p>
+
+> Generic Claude Code harness engineering kit. Bootstraps new projects with **5 layers of protection** (process · technical invariants · operational principles · contractual invariants via SDD · experience invariants) — extracted from `go-party-venue-hub`.
 
 [![npm version](https://img.shields.io/npm/v/create-arthus-harness.svg)](https://www.npmjs.com/package/create-arthus-harness)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
