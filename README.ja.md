@@ -10,10 +10,12 @@
   <a href="README.tr.md">Türkçe</a>
 </p>
 
-> 汎用的な Claude Code harness エンジニアリングキット。**5 層の保護**(プロセス · 技術的不変条件 · 運用原則 · SDD による契約的不変条件 · 体験的不変条件)で新しいプロジェクトをブートストラップ — `go-party-venue-hub` から抽出。
+> **前のプロジェクトで何ヶ月もかけて調整した規律を、次のプロジェクトに 30 秒でインストール。**
 
 [![npm version](https://img.shields.io/npm/v/create-arthus-harness.svg)](https://www.npmjs.com/package/create-arthus-harness)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+`arthus-harness` は、新しいプロジェクトを **5 層の保護**(agents、skills、hooks、slash commands、ドキュメントテンプレート、運用原則、感情的不変条件)を事前にインストールしてブートストラップする Claude Code スキャフォルダーです。スタックのボイラープレートではありません。SaaS スターターキットでもありません。これはあなたの **Claude Code を操作する方法**を、一度実行してプロジェクトを規律で動かす準備を整え、消える `npx` コマンドにパッケージ化したものです。次のプロジェクトを、前のプロジェクトが終わった**上から**始める — ゼロからではなく。
 
 ## クイックスタート
 
@@ -22,80 +24,173 @@ npx create-arthus-harness my-project
 cd my-project
 ```
 
-ウィザードが **3 つの質問**(プリセット · 原則 · git-init)をして、以下を含むプロジェクトを生成します:
+表示される内容:
 
-- 9 つの専門 agent(`code-reviewer`, `typescript-reviewer`, `silent-failure-hunter`, `security-reviewer`, `a11y-architect`, `refactor-cleaner`, `code-archaeologist`, `debugger`, `product-manager`)
-- 4 つの skill(`experience-principles`, `init-project`, `harness-doctor`, `spec-keeper`)
-- 3 つの hook(`config-protection`, `post-edit-accumulator`, `batch-format-typecheck`)
-- 5 つの slash command(`/plan`, `/feature-dev`, `/code-review`, `/refactor-clean`, `/save-session`)
-- 8 つのドキュメントテンプレート(ADR, RUNBOOK, SPEC など)
-- **5 層のドキュメントスタック**:`MISSION.md`(技術的不変条件)· `Docs/SPEC.md`(コンポーネント契約、Spec-Driven Development)· `Docs/sdd-guide.md`(SDD メソッド)· `Docs/produto/PRODUTO.md`(ビジョン + 運用原則)· `Docs/produto/principios-de-experiencia.md`(体験的不変条件)
-- 5 つの CI ジョブワークフロー(lint, design-check, type-check, secrets-scan, npm-audit)
-- `arthus-harness sync` 用のロックファイル `.arthus-harness/lock.json` + `baseline/`
+```
+✔ Project name: my-project
+✔ Preset: minimal
+✔ Principles strategy: A (literal default)
+✔ Init git? Yes
 
-## これは何?
+Created my-project/
+  → 9 agents, 4 skills, 3 hooks, 5 slash commands
+  → MISSION.md, SPEC.md, principios-de-experiencia.md ready
+  → .git initialized
 
-Cristiano は数か月かけて `go-party-venue-hub` で洗練された Claude Code harness を構築しました:17 の専門 agent、12 の skill、4 つの hook、7 つの slash command、8 つのテンプレート、MCP 統合、auto-memory、design-system パイプライン。このリポジトリは**形式**(普遍的な規律)を再利用可能なキットに抽出し、**コンテンツ**(Asaas、Veriff、Supabase RLS、Confiança/Alívio)はオプトインプラグインに残します。
+cd my-project && claude
+```
 
-**Job-To-Be-Done。** 新しいプロジェクトを始めるとき、「感覚を伴う製品」の規律と Claude Code を操作する習慣がすでにインストールされていてほしい — 前のプロジェクトでどうやってそこに到達したかを覚えておく必要なく。
+## なぜ存在するか
 
-## これは何ではない
+あなたは 3 ヶ月かけて、プロジェクトで Claude Code を調整します。サイレントバグを捕捉する agent を書きます。Claude が lint を通すために `tsconfig` を「修正」するのをブロックする hook を設定します。reviewer が適用することを学んだ UX ルールを文書化します。すべての commit の前に 3 つの reviewer を並列実行する slash command を作ります。美しく動きます。各部分が何をして、なぜそこにあるかを知っています。
 
-- ❌ React/Next/Vite ボイラープレート(自分のスタックを持参)
-- ❌ create-next-app / Yeoman / Cookiecutter(あれらは製品コードを生成する)
-- ❌ SaaS テンプレート / スターターキット
-- ❌ ランタイム依存(ワンショットジェネレーター、ブートストラップ後ゼロフットプリント)
+そして新しいプロジェクトを開きます。
+
+そこには Claude Code が再び工場出荷時の状態に戻っています。Agents なし。Hooks なし。同じ RLS の間違いを 4 回犯すのを防いだ `MISSION.md` なし。すべてのエラーメッセージがユーザーを責めるのではなく、次のステップを言うようにした原則ファイルなし。あなたは見て、ため息をつき、古いプロジェクトから手動で `.claude/` をコピーし始めます — 内容の半分はそのドメインに固有で新しいものを汚染することを知っており、もう半分は普遍的だが分離するエネルギーがありません。
+
+それが問題です。Claude Code は**プロジェクトを速く作る**ことを可能にしますが、規律はあなたと一緒に旅しません。すべての新しいプロジェクトは世界の平均レベルに後退します。各プロジェクトであなたが良くなるという複利効果は起こりません — または**1 つのプロジェクト内**で起こり、それが死ぬときに死にます。
+
+`arthus-harness` は、この普遍的な部分(**形式**: agents、hooks、skills、テンプレート)を抽出し、ドメイン固有のコンテンツをオプトインで残します(プラグイン経由の**コンテンツ**)。`npx create-arthus-harness` を一度実行し、3 つの質問に答えると、新しいプロジェクトは 9 つの agents、4 つの skills、3 つの hooks、5 つの slash commands、そして 5 層のドキュメントスタックがすでにインストールされた状態で誕生します。固定テンプレートではありません: lockfile、baseline、本物の 3-way merge があります — harness が進化するとき、あなたは作業を失わずに改善を引き出します。
+
+洞察はシンプルです: すべての新しいプロジェクトは、前のプロジェクトが終わった**上から**始まるべきです。パニックでファイルをコピーするのではなく。同じ教訓を学び直すのではなく。規律は唯一複利するものです — そして、あなたと一緒に旅する場所にパッケージ化したときだけ複利します。
+
+## 解決する問題
+
+### 🔥 すべての新しいプロジェクトでセットアップを繰り返す
+
+> **心当たりがありますか?**
+>
+> "新しいプロジェクトを始めて、古いプロジェクトから `.claude/agents/` を手動でコピーするのに 4 時間費やしました。何が普遍的で何がそのドメインに固有かを、ファイルごとに決定しました。終わったときには、実際の機能を始めるエネルギーが残っていませんでした。"
+
+**`arthus-harness` の解決方法:** `npx create-arthus-harness my-project` + 3 つの質問。30 秒後、9 つの agents、4 つの skills、3 つの hooks、5 つの slash commands がインストールされます — 普遍的なものだけ。ドメイン固有のコンテンツはプラグイン経由でオプトインです。
+
+### 🔥 設定を緩めることでエラーを黙らせる Agent
+
+> **心当たりがありますか?**
+>
+> "Claude が build を通すのに苦労していました。diff を確認したところ、`tsconfig.json` に入って `strictNullChecks` をオフにしたことに気づきました。Build は通りました。200 個の沈黙したエラーと一緒に。本番環境で 2 週間後に発見しました。"
+
+**`arthus-harness` の解決方法:** `config-protection.cjs` hook は PreToolUse で**ブロッキング**です — `tsconfig`、`eslint`、`package.json`、`MISSION.md`、migrations への Edit/Write は明示的な認証要求で中断されます。Claude はあなたが見ていないところで設定を緩めてエラーを黙らせることができません。
+
+### 🔥 セッション間でメモリがない
+
+> **心当たりがありますか?**
+>
+> "新しいセッションごとに 10 分かけて Claude に現在の状態を説明します: どの機能にいるか、金曜日に何を決定したか、明らかなアプローチをなぜ使わなかったか。週 3 セッションで 30 分の無駄 — そして Claude は私たちがすでに捨てたパスを進みます。"
+
+**`arthus-harness` の解決方法:** `post-edit-accumulator` hook は、編集されたファイルをセッションごとに auto-memory に記録します。Slash command `/save-session` は状態のスナップショット(ブランチ、最後の commit、決定事項、次のステップ)を保存し、次のセッションの最初に読み込まれます。ドキュメントテンプレート(ADR、RUNBOOK、SPEC)は、アーキテクチャ決定があなたの頭の中だけに住まないための場所を提供します。
+
+### 🔥 一貫したチェックリストのない PR
+
+> **心当たりがありますか?**
+>
+> "今日 merge する前に PR を review して、3 つのことを見つけました。先週同じサイズの別のものを review して、何も見ずに merge しました。悪意ではありません — 基準が私の気分によって変わったのです。私がどれだけ休息しているかに依存する review は信頼できません。"
+
+**`arthus-harness` の解決方法:** `/code-review` slash command は複数の reviewer を並列で呼び出します(`code-reviewer`、`silent-failure-hunter`、`security-reviewer`、`typescript-reviewer`、`a11y-architect`)— それぞれが独自のチェックリストを持ちます。あなたの気分に依存しません。Reviewer はプロジェクトごとに memory にパターンを蓄積し、各 PR でより鋭くなります。
+
+### 🔥 すべてのプロジェクトで繰り返される UX エラー
+
+> **心当たりがありますか?**
+>
+> "また「何かが間違いました。再試行してください。」というエラーメッセージを通してしまいました — 何が間違ったかも、次のステップも、ユーザーのせいかシステムのせいかも言わずに。今年 4 度目で、最終 review でしか覚えていません。すべてが本番環境にあります。"
+
+**`arthus-harness` の解決方法:** Layer 5 — `principios-de-experiencia.md` は 4 つのアンカー感覚 + 5 つの運用ルール付きで出荷されます。`experience-principles` skill はコンテンツ非依存で、UI/copy ファイルで自動発火します。あなたがルールを定義し、skill が適用を保証します。
+
+### 🔥 失われたアーキテクチャ決定
+
+> **心当たりがありますか?**
+>
+> "3 ヶ月後、誰かが PR で尋ねます: 'なぜ X を使わなかったの?'。誰も覚えていません。私はその時覚えていて、頭の中で書いて、明らかだと思いました。記録しなかったのは慣性でした。今、すべてを再び議論します。"
+
+**`arthus-harness` の解決方法:** `ADR.md` テンプレートがデフォルトで出荷されます。Layer 4(Spec-Driven Development)は `Docs/SPEC.md` をコンポーネント契約の正式な場所にします。誰かが ADR なしで `[STABLE]` を破ると、`code-reviewer` が HIGH としてフラグを立てます。
+
+### 🔥 コードとドキュメント間のドリフト
+
+> **心当たりがありますか?**
+>
+> "支払いモジュールをリファクタリングして、`Docs/arquitetura/` の更新を忘れました。6 週間後に新しい dev が参加し、ドキュメントを読み、それに従い、変更されたコードで迷子になりました。気づかないうちに、私はオンボーディングのボトルネックになりました。"
+
+**`arthus-harness` の解決方法:** Layer 4(SPEC)+ `code-reviewer` agent は、SPEC 更新なしでパブリックサーフェスが変更された場合に **MEDIUM** をフラグします。`spec-keeper` skill は `Docs/SPEC.md` を生かし、契約ごとにステータス(`[STUB]` / `[DRAFT]` / `[STABLE]`)を要求します。古いドキュメントは review を通りません — メモリリークではなく commit 境界になります。
+
+## これがあなたに開くもの
+
+### 📈 プロジェクト間の複利
+
+**前:** プロジェクト A で学んだ教訓はそこで死にました。
+**今:** それらは harness の改善になります。`arthus-harness sync` は、作業を失うことなく更新を生きているプロジェクトに引き出します。すべての新しいプロジェクトは前のプロジェクトの**上から**始まります。
+
+### 📈 規律の後退なしのマルチプロジェクト
+
+**前:** 3 つの並列プロジェクト = 3 つの異なる規律レベル。
+**今:** すべてが同じドキュメントスタック、同じブロッキング hook、同じ reviewer で生まれます。Solo dev は「後退税」なしで N プロジェクトにスケールします。
+
+### 📈 重いツーリングなしの Spec-Driven Development
+
+**前:** SDD は OpenAPI generators、Stoplight、専用 QA チームを持つエンタープライズの大物のように見えました。
+**今:** `Docs/SPEC.md` は `Input → Output → Acceptance → Status` テーブルを持つ Markdown です。3 段階のステータスライフサイクル。SDD はついに solo プロジェクトに収まります。
+
+### 📈 セレモニーではなくガードレールとしての契約
+
+**前:** 「契約を形式化しよう」は、誰も読まない Notion ドキュメント + 会議になりました。
+**今:** 契約はコードと一緒に、同じ PR の中で生きます。`[STABLE]` を破るには ADR が必要です。`[DRAFT]` を破るのは無料です。形式は成熟度に比例します。
+
+### 📈 膨らんだ starter kit ではなくオプトインプラグイン
+
+**前:** SaaS テンプレートは、半分しか使わなくてもすべてバンドルされて出荷されました。
+**今:** core は 9 つの普遍的な agents を出荷します。7 つのプラグインがオプトインです。スリムなフットプリント、Claude のためのクリーンなコンテキスト。
+
+### 📈 UX チームなしの一貫した UX
+
+**前:** 基本的な UX ルールはあなたの頭の中だけに住んでいました。
+**今:** Layer 5 は、自動発火する skill 経由でルールを自動 code review に変えます。UX チームなしの UX チーム品質。
+
+## これは誰のためか
+
+### ✅ 次のような場合 `arthus-harness` を使う
+
+- Claude Code を十分に操作したことがあり、デフォルト設定に何が欠けているかについて意見を持っている — 自分の agents、ブロッキング hooks、`paths:` スコーピング付き skills、カスタム slash commands。
+- Solo dev または小規模チーム(≤5 人)で、別の QA / UX / DevOps を持っておらず、これらの規律をプロジェクトにコードとしてインストールしたい。
+- 複数の並列プロジェクトに取り組んでおり、各プロジェクトが平均レベルに後退するのに疲れている。
+- 技術的規律と UX/UI への配慮は異なるタイプの不変条件であると信じており、その区別を尊重するツール(別々の層、別々の重大度)が欲しい。
+- アーキテクチャ決定が ADR になり、契約が SPEC になり、原則が自動 reviewer になることを望んでいる。
+
+### ❌ 次のような場合は使わない
+
+- auth + landing + dashboard 準備済みの React/Next/Vite テンプレートを探している。`arthus-harness` はスタック非依存です — あなたがスタックを持ってきます。
+- agent、hook、skill、slash command が何かを理解する努力をまだしていないのに「Claude Code でバイブを始めたい」。Harness は 1 日目の人にとってオーバーヘッドです; まず Claude Code で生産的になり、その後規律をパッケージ化しに来てください。
+- 専用の QA/SRE/DevRel を持つ大規模チームで働いている — これらの人々は harness がコードとしてカプセル化するものを外部で提供しています。
+- 最低限のセレモニーに耐えられない。5 層は `MISSION` / `SPEC` / 原則を更新する習慣を要求します。「何でも merge する 0 摩擦」が欲しい場合、harness はあなたを困らせます — 意図的に。
 
 ## 5 層の保護
 
-> **MISSION** = 技術的に決して壊さない · **SPEC** = コンポーネント間の契約 · **PRODUTO §Princípios** = トレードオフを判断する方法 · **principios-de-experiencia** = 感情的に決して壊さない。各層には異なる重大度と頻度がある — 統合しないこと。詳細は [`docs/architecture.md`](docs/architecture.md) を参照。
+| # | 層 | ドキュメント | 違反の重大度 |
+|---|---|---|---|
+| 1 | **プロセス** | hooks `.cjs` + slash commands | ブロッキング(exit 2) |
+| 2 | **技術的**(交渉不可) | `MISSION.md` | インシデント級(キーローテーション、ポストモーテム) |
+| 3 | **運用原則** | `PRODUTO.md §Princípios` | 議論(PR で引用) |
+| 4 | **契約的(SDD)** | `SPEC.md` + `sdd-guide.md` | Review(PR 拒否) |
+| 5 | **感情的** | `principios-de-experiencia.md` | UI/copy で skill 自動発火 |
 
-### 1. プロセス層 — hooks + slash commands
-
-すべての commit は以下を通る:
-
-- **`config-protection.cjs`**(PreToolUse、**ブロッキング**)— ユーザーの明示的な承認なしに `tsconfig`、`eslint`、`package.json`、`MISSION.md` などへの編集をブロック。設定を緩めることで agent がエラーを隠すのを防ぐ。
-- **`batch-format-typecheck.cjs`**(Stop、**lint ブロッキング / tsc 警告**)— セッション内で編集されたファイルに対して終了時に ESLint を実行。lint エラー時に Stop をブロック。tsc は警告のみ(TS 負債は段階的)。
-- **`post-edit-accumulator.cjs`**(PostToolUse、**警告**)— auto-memory:`~/.claude/projects/<slug>/memory/` に編集されたファイルを記録。
-- **`/code-review`** slash command — commit 前に 3 つの reviewer を並列実行。
-
-### 2. 技術的不変条件 — MISSION.md
-
-骨組みには §1-§7 のセクション(セキュリティ、冪等性、RBAC、マイグレーション、品質、プロセス)が付属。ユーザーは scaffold 時にインタビューを通じて TODO を埋める。プラグインが自動入力(例:`plugin-supabase` は RLS ルールで §1 を埋める)。
-
-### 3. 運用原則 — `Docs/produto/PRODUTO.md §Princípios operacionais`
-
-MISSION とは異なる 3-7 個の実行可能な原則。各原則は (a) コードレビューで実行可能、(b) MISSION とは異なる(トレードオフがあり、正当化があれば破られる)、(c) 短い必要がある。
-
-例(テンプレートでコメント化 — 自分のものに置き換え):「人間が指揮」 · 「デフォルトで引用可能」 · 「失敗を声に出す」 · 「LGPD-first」 · 「予測可能なコスト」。
-
-### 4. 契約的不変条件 — `Docs/SPEC.md`(Spec-Driven Development)
-
-コンポーネント間の契約の形式仕様 — `Input → Output → Acceptance → Status`。状態ライフサイクル `[STUB]` / `[DRAFT]` / `[STABLE]`。`[STABLE]` への破壊的変更には ADR + 移行計画が必要。
-
-`code-reviewer` agent は公開サーフェスの変更で SPEC 更新がない場合に **MEDIUM** をフラグ;ADR なしで `[STABLE]` を破壊する場合に **HIGH**。メソッドは [`core/Docs/sdd-guide.md.eta`](core/Docs/sdd-guide.md.eta)。
-
-### 5. 体験的不変条件 — `Docs/produto/principios-de-experiencia.md`
-
-中核となる IP。2 つの戦略が共存:
-
-- **戦略 A(literal デフォルト)。** GoParty の 4 つのアンカー感覚(Confiança、Alívio、Clareza、Comemoração) + 5 つの運用ルールを原文で出荷 — GoParty 固有の部分にコメントを付けて簡単にオーバーライド可能。
-- **戦略 C(オプトイン framework)。** 空だが型付けされた scaffold + manifest.yaml で出荷 — 自分の N 個の感覚、M 個のルールを定義;skill `experience-principles` が動的に読み取る。
-
-Skill `experience-principles` は**コンテンツ非依存** — プロジェクトのファイルにあるものを読む。GoParty の知識は埋め込まれていない。
+各層には異なる重大度と頻度があります — 統合しないこと。詳細は [`docs/architecture.md`](docs/architecture.md) を参照。
 
 ## CLI コマンド
 
 ```bash
 # 新プロジェクトのブートストラップ
-npx create-arthus-harness my-project [--preset=goparty-like|web-supabase|minimal] [--principles=A|C|both]
+npx create-arthus-harness my-project
+# → 30 秒、3 つの質問、規律で Claude Code を使う準備ができたプロジェクト
 
-# arthus-harness からブートストラップされた既存プロジェクト内で:
-arthus-harness sync                 # テンプレートを最新版に更新、競合時に .rej
-arthus-harness sync --interactive   # 競合ごとにプロンプト
-arthus-harness sync --strict        # 競合があれば失敗(CI 用)
-arthus-harness doctor               # プロジェクトと現在の arthus バージョン間のドリフトをチェック
-arthus-harness add-plugin <name>    # 既存プロジェクトにプラグインを追加
+# harness が進化したときに既存プロジェクトを更新
+arthus-harness sync
+# → 3-way merge: 触れていないファイルは自動更新; 変更されたファイルは .rej を取得
+
+# ドリフトを診断
+arthus-harness doctor
+# → 現在対インストール済みバージョン + プラグイン + 不足ファイルを報告
+
+# 既存プロジェクトにプラグインを追加
+arthus-harness add-plugin supabase
+# → プラグインの貢献が .claude/ + package.json + .env.example にマージ
 ```
 
 ## プラグイン(オプトイン)
@@ -110,23 +205,31 @@ arthus-harness add-plugin <name>    # 既存プロジェクトにプラグイン
 | `journey-mapping` | `Docs/produto/jornadas/` + `journey-touch-reminder` hook |
 | `mcp-code-review-graph` | code-review-graph MCP server(Tree-sitter ナレッジグラフ)+ 4 つの helper skill + 2 つの settingsHooks。`uv` + `uv tool install code-review-graph` が必要。 |
 
-## 配布
+## 比較
 
-- **主要:** npm パッケージ `create-arthus-harness`(`npx` ですぐに使える)。
-- **ソース:** `github.com/cristianorj22/arthus-harness` — 公開、tags = npm バージョン、GH Actions 経由で release を自動公開。
+| | `arthus-harness` | `create-t3-app` | `cookiecutter` | 手動 `cp -r` |
+|---|---|---|---|---|
+| `.claude/` をスキャフォルド | ✅ | ❌ | ❌ | ✅ (manual) |
+| プロダクトコードをスキャフォルド | ❌ | ✅ | ✅ | ✅ |
+| 3-way merge による更新可能(`sync`) | ✅ | ❌ | ❌ | ❌ |
+| オプトインプラグイン | ✅ | ⚠️ via opts | ⚠️ via hooks | ❌ |
+| スタック非依存 | ✅ | ❌ (Next-only) | ✅ | ✅ |
+| 5 層ドキュメントスタック | ✅ | ❌ | ❌ | ❌ |
 
-## バージョニング
+## 巨人の肩の上に立つ
 
-- Generator-style、スナップショットロックファイル(`.arthus-harness/lock.json`)+ `baseline/` ディレクトリ付き。
-- `arthus-harness sync` は保存された回答を使用してテンプレートを再レンダリングし、ユーザーが変更したファイルに `node-diff3` 経由で**真の 3-way merge** を適用。デフォルトは非ブロッキング(競合時に `.rej` を書き込む);オプトインで対話式。
-- SemVer:major bump はテンプレートの破壊的変更を示す;minor はプラグイン/agent を追加する。
+- [`create-t3-app`](https://create.t3.gg) — CLI スキャフォルダーパターン + opinionated 哲学
+- [`cookiecutter`](https://cookiecutter.readthedocs.io) — テンプレートライフサイクル + hook システムの インスピレーション
+- [Anthropic Skills](https://github.com/anthropics/skills) — skill 形式仕様
+- [`PRPs-agentic-eng`](https://github.com/Wirasm/PRPs-agentic-eng) by Wirasm — 適応された slash command パターン(`/code-review`、`/plan`、`/feature-dev`)
+- [`everything-claude-code`](https://github.com/affaan-m/everything-claude-code) — 多言語 README パターン
+- 6 ヶ月の本物の本番マーケットプレイスの運用 — agents/skills/hooks が harness になる前に実戦テストされた
 
 ## ドキュメント
 
 - [PLAN.md](PLAN.md) — マスタープラン(アーキテクチャ + ロードマップ)
 - [DECISIONS.md](DECISIONS.md) — 13 のアーキテクチャ決定とその理由
-- [PROVENANCE.md](PROVENANCE.md) — `go-party-venue-hub` から来たもの(規律 vs ホコリ)
-- [RESOLVED-QUESTIONS.md](RESOLVED-QUESTIONS.md) — 解決された 5 つの重要な決定
+- [PROVENANCE.md](PROVENANCE.md) — 規律 vs ホコリ 監査
 - [CHANGELOG.md](CHANGELOG.md) — バージョン履歴
 - [docs/plugin-authoring.md](docs/plugin-authoring.md) — プラグインの書き方
 - [docs/upgrade-guide.md](docs/upgrade-guide.md) — `arthus-harness sync` の詳細
@@ -136,7 +239,7 @@ arthus-harness add-plugin <name>    # 既存プロジェクトにプラグイン
 
 > 実際のプロジェクトではなく arthus-harness を 2 時間以上調整しているなら、**止めなさい**。
 
-Harness は手段であり、目的ではない。source repo に issue を開いて先に進む。`init-project` skill は次のプロンプトが harness ではなく**製品**についてになるよう強制するために設計されている。
+Harness は手段であり、目的ではない。issue を開いて先に進む。`init-project` skill は次のプロンプトが harness ではなく**製品**についてになるよう強制するために設計されている。
 
 ## Star History
 

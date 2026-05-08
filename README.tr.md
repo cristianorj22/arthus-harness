@@ -10,10 +10,12 @@
   <strong>Türkçe</strong>
 </p>
 
-> Genel amaçlı Claude Code harness mühendislik kiti. Yeni projeleri **5 koruma katmanı** (süreç · teknik değişmezler · operasyonel ilkeler · SDD aracılığıyla sözleşmesel değişmezler · deneyim değişmezleri) ile başlatır — `go-party-venue-hub`'dan çıkarıldı.
+> **Önceki projede aylarca ayarladığınız disiplin, bir sonraki projeye 30 saniyede yüklenir.**
 
 [![npm version](https://img.shields.io/npm/v/create-arthus-harness.svg)](https://www.npmjs.com/package/create-arthus-harness)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+`arthus-harness`, **5 koruma katmanı** (agents, skills, hooks, slash commands, doküman şablonları, operasyonel ilkeler ve duygusal değişmezler) önceden yüklenmiş yeni projeleri başlatan bir Claude Code scaffolder'ıdır. Stack boilerplate değildir. SaaS starter kit değildir. Bu sizin **Claude Code işletim biçiminiz**, bir kez çalışan, projeyi disiplinle çalışmaya hazır hale getiren ve kaybolan tek bir `npx` komutuna paketlenmiştir. Bir sonraki projeye, bir önceki projenin bittiği yerin **üstünden** başlarsınız — sıfırdan değil.
 
 ## Hızlı başlangıç
 
@@ -22,80 +24,173 @@ npx create-arthus-harness my-project
 cd my-project
 ```
 
-Sihirbaz **3 soru** sorar (preset · ilkeler · git-init) ve şunları içeren bir proje oluşturur:
+Göreceğiniz şey:
 
-- 9 uzman agent (`code-reviewer`, `typescript-reviewer`, `silent-failure-hunter`, `security-reviewer`, `a11y-architect`, `refactor-cleaner`, `code-archaeologist`, `debugger`, `product-manager`)
-- 4 skill (`experience-principles`, `init-project`, `harness-doctor`, `spec-keeper`)
-- 3 hook (`config-protection`, `post-edit-accumulator`, `batch-format-typecheck`)
-- 5 slash komutu (`/plan`, `/feature-dev`, `/code-review`, `/refactor-clean`, `/save-session`)
-- 8 doküman şablonu (ADR, RUNBOOK, SPEC, vb.)
-- **5 katmanlı doküman yığını**: `MISSION.md` (teknik değişmezler) · `Docs/SPEC.md` (bileşen sözleşmeleri, Spec-Driven Development) · `Docs/sdd-guide.md` (SDD yöntemi) · `Docs/produto/PRODUTO.md` (vizyon + operasyonel ilkeler) · `Docs/produto/principios-de-experiencia.md` (deneyim değişmezleri)
-- 5 işli CI workflow (lint, design-check, type-check, secrets-scan, npm-audit)
-- `arthus-harness sync` için kilit dosyası `.arthus-harness/lock.json` + `baseline/`
+```
+✔ Project name: my-project
+✔ Preset: minimal
+✔ Principles strategy: A (literal default)
+✔ Init git? Yes
 
-## Bu nedir?
+Created my-project/
+  → 9 agents, 4 skills, 3 hooks, 5 slash commands
+  → MISSION.md, SPEC.md, principios-de-experiencia.md ready
+  → .git initialized
 
-Cristiano, `go-party-venue-hub`'da sofistike bir Claude Code harness oluşturmak için aylar harcadı: 17 uzman agent, 12 skill, 4 hook, 7 slash komutu, 8 şablon, MCP entegrasyonları, auto-memory, design-system pipeline. Bu repo, **biçimleri** (evrensel disiplinleri) yeniden kullanılabilir bir kite çıkarır ve **içeriği** (Asaas, Veriff, Supabase RLS, Confiança/Alívio) opt-in eklentilerde bırakır.
+cd my-project && claude
+```
 
-**Job-To-Be-Done.** Yeni bir projeye başladığınızda, "hissi olan ürün" disiplininizin ve Claude Code işletim alışkanlığınızın zaten yüklenmiş olmasını istersiniz — önceki projede oraya nasıl ulaştığınızı hatırlamadan.
+## Neden var
 
-## Bu ne DEĞİLDİR
+Bir projede Claude Code'unuzu ayarlamak için üç ay harcarsınız. Sessiz bug yakalayan bir agent yazarsınız. Claude'un lint'i geçirmek için `tsconfig`'i "düzeltmesini" engelleyen bir hook yapılandırırsınız. Reviewer'ın uygulamayı öğrendiği UX kurallarını belgeleyiniz. Her commit'ten önce 3 reviewer'ı paralel çalıştıran bir slash command oluşturursunuz. Güzel çalışıyor. Her parçanın ne yaptığını ve neden orada olduğunu biliyorsunuz.
 
-- ❌ React/Next/Vite boilerplate (kendi stack'inizi getirin)
-- ❌ create-next-app / Yeoman / Cookiecutter (onlar ürün kodu üretir)
-- ❌ SaaS şablonu / starter kit
-- ❌ Çalışma zamanı bağımlılığı (tek seferlik üretici, bootstrap'tan sonra sıfır ayak izi)
+Sonra yeni bir proje açarsınız.
+
+Ve orada Claude Code yine fabrika ayarlarında. Agents yok. Hooks yok. Sizi aynı RLS hatasını 4 kez yapmaktan koruyan `MISSION.md` yok. Her hata mesajının kullanıcıyı suçlamak yerine bir sonraki adımı söylemesini sağlayan ilkeler dosyası yok. Bakıyorsunuz, iç çekiyorsunuz ve eski projeden manuel olarak `.claude/` kopyalamaya başlıyorsunuz — içeriğin yarısının o domain'e özgü olduğunu ve yenisini kirleteceğini, diğer yarısının evrensel olduğunu ama ayırmak için enerjiniz olmadığını biliyorsunuz.
+
+Sorun bu. Claude Code **projeleri hızlı oluşturmanıza** olanak tanır, ancak disiplin sizinle birlikte yolculuk etmez. Her yeni proje dünya ortalamasına geriler. Her projede daha iyi olmanın bileşik etkisi gerçekleşmez — veya **tek bir proje içinde** gerçekleşir ve o öldüğünde ölür.
+
+`arthus-harness`, bunun evrensel kısmını (**biçimler**: agents, hooks, skills, şablonlar) çıkarır ve domain'e özgü içeriği opt-in olarak bırakır (eklentiler aracılığıyla **içerik**). `npx create-arthus-harness`'i bir kez çalıştırırsınız, 3 soruyu yanıtlarsınız ve yeni proje 9 agents, 4 skills, 3 hooks, 5 slash commands ve 5 katmanlı doküman yığını zaten yüklenmiş olarak doğar. Sabit bir şablon değildir: lockfile, baseline, gerçek 3-way merge vardır — harness geliştiğinde, çalışmanızı kaybetmeden iyileştirmeleri çekersiniz.
+
+İçgörü basit: her yeni proje, bir öncekinin bittiği yerin **üstünden** başlamalıdır. Panik içinde dosyaları kopyalayarak değil. Aynı dersleri yeniden öğrenerek değil. Disiplin, bileşik olan tek şeydir — ve sadece sizinle birlikte yolculuk eden bir yere paketlerseniz bileşik olur.
+
+## Çözdüğü sorunlar
+
+### 🔥 Her yeni projede tekrarlanan kurulum
+
+> **Tanıdık geliyor mu?**
+>
+> "Yeni bir projeye başladım ve eski projeden `.claude/agents/`'i manuel kopyalamak için 4 saat harcadım, dosya bazında neyin evrensel olduğuna ve neyin o domain'e özgü olduğuna karar verdim. Bittiğinde, gerçek özelliği başlatacak enerjim kalmamıştı."
+
+**`arthus-harness` nasıl çözer:** `npx create-arthus-harness my-project` + 3 soru. 30 saniye sonra 9 agents, 4 skills, 3 hooks, 5 slash commands yüklü — sadece evrensel olanlar. Domain'e özgü içerik eklentiler aracılığıyla opt-in.
+
+### 🔥 Yapılandırmayı gevşeterek hatayı susturan Agent
+
+> **Tanıdık geliyor mu?**
+>
+> "Claude build'i geçirmekte zorlanıyordu. Diff'i incelediğimde, `tsconfig.json`'a girdiğini ve `strictNullChecks`'i kapattığını fark ettim. Build geçti, evet. 200 sessiz hatayla birlikte. Production'da 2 hafta sonra keşfettim."
+
+**`arthus-harness` nasıl çözer:** `config-protection.cjs` hook PreToolUse ve **engelleyici** — `tsconfig`, `eslint`, `package.json`, `MISSION.md`, migrations'a herhangi bir Edit/Write açık yetki isteğiyle kesilir. Claude, yapılandırmayı gevşeterek hataları görmeden susturamaz.
+
+### 🔥 Oturumlar arası bellek yokluğu
+
+> **Tanıdık geliyor mu?**
+>
+> "Her yeni oturumda Claude'a mevcut durumu açıklamak için 10 dakika kaybediyorum: hangi özellikteyim, Cuma günü ne karar verdik, neden bariz yaklaşımı kullanmadık. Haftada üç oturum, bu yarım saat israf — ve Claude hâlâ zaten elediğimiz bir yola gidiyor."
+
+**`arthus-harness` nasıl çözer:** `post-edit-accumulator` hook, oturum başına düzenlenen dosyaları auto-memory'ye kaydeder. Slash command `/save-session`, durum anlık görüntüsünü (branch, son commit, kararlar, sonraki adım) kaydeder ve sonraki oturumun başında okunur. Doküman şablonları (ADR, RUNBOOK, SPEC), mimari kararların yalnızca kafanızda yaşamaması için bir yer sağlar.
+
+### 🔥 Tutarlı checklist olmayan PR
+
+> **Tanıdık geliyor mu?**
+>
+> "Bugün merge etmeden önce PR'ımı review ettim ve 3 şey yakaladım. Geçen hafta aynı boyutta başka bir PR'ı review ettim ve hiçbir şey görmeden merge ettim. Kötü niyet değildi — kriter ruh halime göre değişti. Ne kadar dinlendiğime bağlı olan bir review'a güvenemezsiniz."
+
+**`arthus-harness` nasıl çözer:** `/code-review` slash command birden fazla reviewer'ı paralel çağırır (`code-reviewer`, `silent-failure-hunter`, `security-reviewer`, `typescript-reviewer`, `a11y-architect`) — her biri kendi checklist'ine sahip. Ruh halinize bağlı değil. Reviewer'lar her PR'da daha keskin hale gelerek proje başına memory'ye desenler biriktirir.
+
+### 🔥 Her projede tekrarlanan UX hataları
+
+> **Tanıdık geliyor mu?**
+>
+> "Tekrar bir hata mesajının geçmesine izin verdim 'Bir şeyler ters gitti. Tekrar deneyin.' — neyin yanlış gittiğini, sonraki adımı, kullanıcının mı sistemin mi hatası olduğunu söylemeden. Bu yıl 4. kez bunu yalnızca son review'da hatırlıyorum, her şey zaten production'da."
+
+**`arthus-harness` nasıl çözer:** Layer 5 — `principios-de-experiencia.md` 4 çapa duyumu + 5 operasyonel kuralla sevk eder. `experience-principles` skill içerik agnostiktir ve UI/copy dosyalarında otomatik tetiklenir. Kurallarınızı tanımlarsınız; skill uygulanmasını garanti eder.
+
+### 🔥 Kaybolan mimari kararlar
+
+> **Tanıdık geliyor mu?**
+>
+> "Üç ay sonra, biri PR'da soruyor: 'Neden X kullanmadın?'. Kimse hatırlamıyor. O zamanlar hatırladım, kafamda yazdım, bariz olduğunu düşündüm. Eylemsizlikteydim, kaydetmedim. Şimdi her şeyi tekrar tartışacağız."
+
+**`arthus-harness` nasıl çözer:** `ADR.md` şablonu varsayılan olarak sevk edilir. Layer 4 (Spec-Driven Development), `Docs/SPEC.md`'yi bileşen sözleşmeleri için resmi yer yapar. Biri ADR olmadan `[STABLE]`'ı kırarsa, `code-reviewer` HIGH olarak işaretler.
+
+### 🔥 Kod ve doküman arası sapma
+
+> **Tanıdık geliyor mu?**
+>
+> "Ödeme modülünü refactor ettim, `Docs/arquitetura/`'yi güncellemeyi unuttum. Altı hafta sonra yeni bir dev katıldı, dokümanı okudu, takip etti ve değişen kodda kayboldu. Farkına varmadan onboarding darboğazı oldum."
+
+**`arthus-harness` nasıl çözer:** Layer 4 (SPEC) + `code-reviewer` agent, public surface SPEC güncellemesi olmadan değiştiğinde **MEDIUM** işaretler. `spec-keeper` skill `Docs/SPEC.md`'yi canlı tutar ve sözleşme başına durum (`[STUB]` / `[DRAFT]` / `[STABLE]`) gerektirir. Güncel olmayan dokümanlar review'dan geçemez — memory leak değil, commit sınırı olur.
+
+## Bunun size açtıkları
+
+### 📈 Projeler arası bileşik
+
+**Önce:** Proje A'da öğrenilen dersler orada öldü.
+**Şimdi:** Harness iyileştirmeleri olurlar. `arthus-harness sync`, çalışmanızı kaybetmeden güncellemeleri canlı bir projeye çeker. Her yeni proje önceki projenin **üstünden** başlar.
+
+### 📈 Disiplin gerilemesi olmadan multi-project
+
+**Önce:** 3 paralel proje = 3 farklı disiplin seviyesi.
+**Şimdi:** Hepsi aynı doküman yığını, aynı engelleyici hook'lar, aynı reviewer'larla doğar. Solo dev "gerileme vergisi" olmadan N projeye ölçeklenir.
+
+### 📈 Ağır araç olmadan Spec-Driven Development
+
+**Önce:** SDD, OpenAPI generators, Stoplight, özel QA ekipleri olan kurumsal bir şey gibi görünüyordu.
+**Şimdi:** `Docs/SPEC.md`, `Input → Output → Acceptance → Status` tablosu olan Markdown'dur. 3 seviyeli durum yaşam döngüsü. SDD nihayet solo projeye sığar.
+
+### 📈 Tören değil korkuluk olarak sözleşmeler
+
+**Önce:** "Sözleşmeyi formalleştirelim" kimsenin okumadığı bir Notion dokümanı + toplantı oldu.
+**Şimdi:** Sözleşme kodla birlikte, aynı PR'da yaşar. `[STABLE]`'ı kırmak ADR gerektirir. `[DRAFT]`'ı kırmak ücretsiz. Formalite olgunlukla orantılı.
+
+### 📈 Şişirilmiş starter kit yerine opt-in eklentiler
+
+**Önce:** SaaS şablonu, sadece yarısını kullansanız bile her şeyle birlikte sevk ederdi.
+**Şimdi:** Core 9 evrensel agent sevk eder. 7 eklenti opt-in. İnce ayak izi, Claude için temiz bağlam.
+
+### 📈 UX ekibi olmadan tutarlı UX
+
+**Önce:** Temel UX kuralları yalnızca kafanızda yaşardı.
+**Şimdi:** Layer 5, otomatik tetiklenen skill aracılığıyla kurallarınızı otomatik code review'a dönüştürür. UX ekibi olmadan UX ekibi kalitesi.
+
+## Bu kim için
+
+### ✅ Aşağıdaki gibiyseniz `arthus-harness` kullanın
+
+- Claude Code'u, varsayılan kurulumda neyin eksik olduğu hakkında görüş sahibi olacak kadar işlettiniz — kendi agents'ınız, engelleyici hooks'lar, `paths:` scoping ile skills'ler, özel slash commands.
+- Solo dev veya ayrı QA / UX / DevOps olmayan küçük ekipsiniz (≤5 kişi) ve bu disiplinleri projede kod olarak yüklemek istiyorsunuz.
+- Birden fazla paralel projeye dokunuyorsunuz ve her birinin ortalama seviyeye gerilemesinden bıktınız.
+- Teknik disiplin ve UX/UI özeninin farklı türde değişmezler olduğuna inanıyorsunuz — ve bu ayrımı (ayrı katmanlar, ayrı şiddetler) onurlandıran bir araç istiyorsunuz.
+- Mimari kararların ADR'ye, sözleşmelerin SPEC'e ve ilkelerin otomatik reviewer'a dönüşmesini istiyorsunuz — yalnızca kafanızda yaşamak yerine.
+
+### ❌ Aşağıdaki gibiyseniz KULLANMAYIN
+
+- auth + landing + dashboard hazır React/Next/Vite şablonu arıyorsunuz. `arthus-harness` stack-agnostiktir — stack'i siz getirirsiniz.
+- agent, hook, skill, slash command'in ne olduğunu anlama çabası göstermeden "Claude Code ile vibe etmeye başlamak" istiyorsunuz. Harness 1. günkü kişi için aşırıdır; önce Claude Code'da üretken olun, sonra disiplininizi paketlemeye gelin.
+- Özel QA/SRE/DevRel olan büyük bir ekipte çalışıyorsunuz — bu insanlar harness'in kod olarak kapsadığı şeyleri zaten dışarıdan sağlıyor.
+- Minimum törene tahammül edemezsiniz. 5 katman `MISSION` / `SPEC` / ilkeleri güncel tutma alışkanlığı gerektirir. "Her şeyi merge etmek için 0 sürtünme" istiyorsanız, harness sizi rahatsız eder — kasıtlı olarak.
 
 ## 5 koruma katmanı
 
-> **MISSION** = teknik olarak asla kırılmaz · **SPEC** = bileşenler arası sözleşmeler · **PRODUTO §Princípios** = trade-off'lara nasıl karar verilir · **principios-de-experiencia** = duygusal olarak asla kırılmaz. Her katmanın farklı şiddeti ve sıklığı vardır — birleştirmeyin. Detaylar [`docs/architecture.md`](docs/architecture.md) içinde.
+| # | Katman | Doküman | İhlalin şiddeti |
+|---|---|---|---|
+| 1 | **Süreç** | hooks `.cjs` + slash commands | Engelleyici (exit 2) |
+| 2 | **Teknik** (pazarlık edilemez) | `MISSION.md` | Olay seviyesi (anahtar rotasyonu, post-mortem) |
+| 3 | **Operasyonel ilkeler** | `PRODUTO.md §Princípios` | Tartışma (PR'da alıntıla) |
+| 4 | **Sözleşmesel (SDD)** | `SPEC.md` + `sdd-guide.md` | Review (PR reddedildi) |
+| 5 | **Duygusal** | `principios-de-experiencia.md` | UI/copy'de skill otomatik tetikleme |
 
-### 1. Süreç katmanı — hooks + slash commands
-
-Her commit şunlardan geçer:
-
-- **`config-protection.cjs`** (PreToolUse, **engelleyici**) — kullanıcının açık yetkisi olmadan `tsconfig`, `eslint`, `package.json`, `MISSION.md` vb. dosyalara yapılan düzenlemeleri engeller. Agent'ların yapılandırmayı gevşeterek hataları susturmasını önler.
-- **`batch-format-typecheck.cjs`** (Stop, **lint engelleyici / tsc uyarısı**) — oturumda düzenlenen dosyalarda sonda ESLint çalıştırır. Lint hatalarında Stop'u engeller. tsc yalnızca uyarı (TS borcu artımlıdır).
-- **`post-edit-accumulator.cjs`** (PostToolUse, **uyarı**) — auto-memory: düzenlenen dosyaları `~/.claude/projects/<slug>/memory/` içine kaydeder.
-- **`/code-review`** slash komutu — commit'ten önce 3 reviewer'ı paralel çalıştırır.
-
-### 2. Teknik değişmezler — MISSION.md
-
-İskelet §1-§7 bölümleriyle gelir (Güvenlik, İdempotency, RBAC, Migrasyonlar, Kalite, Süreç). Kullanıcı scaffold sırasında röportajla TODO'ları doldurur. Eklentiler otomatik doldurur (örn., `plugin-supabase` §1'i RLS kurallarıyla doldurur).
-
-### 3. Operasyonel ilkeler — `Docs/produto/PRODUTO.md §Princípios operacionais`
-
-MISSION'dan farklı 3-7 uygulanabilir ilke. Her biri (a) code review'de uygulanabilir olmalı, (b) MISSION'dan farklı (trade-off'u var, gerekçeyle bozulabilir), (c) kısa olmalı.
-
-Örnekler (şablonda yorum satırı — kendinizinkilerle değiştirin): "İnsan kontrolde" · "Varsayılan olarak alıntılanabilir" · "Sesli başarısızlık" · "LGPD-first" · "Tahmin edilebilir maliyet".
-
-### 4. Sözleşmesel değişmezler — `Docs/SPEC.md` (Spec-Driven Development)
-
-Bileşenler arası sözleşmelerin biçimsel spesifikasyonu — `Input → Output → Acceptance → Status`. Durum yaşam döngüsü `[STUB]` / `[DRAFT]` / `[STABLE]`. `[STABLE]`'a yıkıcı değişiklik ADR + migrasyon planı gerektirir.
-
-`code-reviewer` agent, public surface değişikliklerinde SPEC güncellemesi olmadığında **MEDIUM** işaretler; ADR olmadan `[STABLE]`'ı kırarken **HIGH** işaretler. Yöntem [`core/Docs/sdd-guide.md.eta`](core/Docs/sdd-guide.md.eta) içinde.
-
-### 5. Deneyim değişmezleri — `Docs/produto/principios-de-experiencia.md`
-
-Çekirdek IP. İki strateji bir arada:
-
-- **Strateji A (literal varsayılan).** GoParty'nin 4 çapa duyumunu (Confiança, Alívio, Clareza, Comemoração) + 5 operasyonel kuralını kelimesi kelimesine sevk eder — GoParty'ye özgü kısımları kolayca üzerine yazmak için yorumlarla işaretlenmiştir.
-- **Strateji C (opt-in framework).** Boş ama tipli scaffold + manifest.yaml ile sevk eder — kendi N duyumunuzu, M kuralınızı tanımlayın; `experience-principles` skill'i dinamik olarak okur.
-
-`experience-principles` skill'i **içerik agnostiktir** — projenizin dosyasında ne varsa onu okur. GoParty bilgisi hardcoded değildir.
+Her katmanın farklı şiddeti ve sıklığı vardır — birleştirmeyin. Detaylar [`docs/architecture.md`](docs/architecture.md) içinde.
 
 ## CLI komutları
 
 ```bash
 # Yeni proje bootstrap
-npx create-arthus-harness my-project [--preset=goparty-like|web-supabase|minimal] [--principles=A|C|both]
+npx create-arthus-harness my-project
+# → 30 saniye, 3 soru, Claude Code'u disiplinle kullanmaya hazır proje
 
-# arthus-harness'tan bootstrap edilmiş mevcut bir proje içinde:
-arthus-harness sync                 # şablonları en son sürüme güncelle, çakışmalarda .rej
-arthus-harness sync --interactive   # her çakışma için sor
-arthus-harness sync --strict        # herhangi bir çakışmada başarısız (CI için)
-arthus-harness doctor               # proje ile mevcut arthus sürümü arasındaki sapmayı kontrol et
-arthus-harness add-plugin <name>    # mevcut projeye eklenti ekle
+# Harness geliştiğinde mevcut projeyi güncelle
+arthus-harness sync
+# → 3-way merge: dokunulmayan dosyalar otomatik güncellenir; değiştirilenler .rej alır
+
+# Sapmayı teşhis et
+arthus-harness doctor
+# → mevcut vs yüklü sürüm + eklentiler + eksik dosyalar raporu
+
+# Mevcut projeye eklenti ekle
+arthus-harness add-plugin supabase
+# → eklenti katkıları .claude/ + package.json + .env.example'a merged
 ```
 
 ## Eklentiler (opt-in)
@@ -110,23 +205,31 @@ arthus-harness add-plugin <name>    # mevcut projeye eklenti ekle
 | `journey-mapping` | `Docs/produto/jornadas/` + `journey-touch-reminder` hook |
 | `mcp-code-review-graph` | code-review-graph MCP server (Tree-sitter knowledge graph) + 4 helper skill + 2 settingsHooks. `uv` + `uv tool install code-review-graph` gerektirir. |
 
-## Dağıtım
+## Karşılaştırma
 
-- **Birincil:** npm paketi `create-arthus-harness` (`npx` ile kutudan çıkar çıkmaz çalışır).
-- **Kaynak:** `github.com/cristianorj22/arthus-harness` — public, tags = npm sürümleri, release'ler GH Actions aracılığıyla otomatik yayımlanır.
+| | `arthus-harness` | `create-t3-app` | `cookiecutter` | manuel `cp -r` |
+|---|---|---|---|---|
+| `.claude/` scaffold | ✅ | ❌ | ❌ | ✅ (manual) |
+| Ürün kodu scaffold | ❌ | ✅ | ✅ | ✅ |
+| 3-way merge ile güncellenebilir (`sync`) | ✅ | ❌ | ❌ | ❌ |
+| Opt-in eklentiler | ✅ | ⚠️ via opts | ⚠️ via hooks | ❌ |
+| Stack-agnostic | ✅ | ❌ (Next-only) | ✅ | ✅ |
+| 5 katmanlı doküman yığını | ✅ | ❌ | ❌ | ❌ |
 
-## Sürüm yönetimi
+## Devlerin omuzlarında
 
-- Snapshot kilit dosyası (`.arthus-harness/lock.json`) + `baseline/` dizini ile generator-style.
-- `arthus-harness sync` kayıtlı yanıtlarınızı kullanarak şablonları yeniden render eder, kullanıcı tarafından değiştirilen dosyalarda `node-diff3` aracılığıyla **gerçek 3-way merge** uygular. Varsayılan engellemez (çakışmalarda `.rej` yazar); opt-in interaktif.
-- SemVer: major bump'lar şablonu kıran değişiklikleri sinyalize eder; minor eklenti/agent ekler.
+- [`create-t3-app`](https://create.t3.gg) — CLI scaffolder deseni + opinionated felsefe
+- [`cookiecutter`](https://cookiecutter.readthedocs.io) — şablon yaşam döngüsü + hook sistemi ilhamı
+- [Anthropic Skills](https://github.com/anthropics/skills) — skill format spesifikasyonu
+- [`PRPs-agentic-eng`](https://github.com/Wirasm/PRPs-agentic-eng) by Wirasm — uyarlanan slash komut desenleri (`/code-review`, `/plan`, `/feature-dev`)
+- [`everything-claude-code`](https://github.com/affaan-m/everything-claude-code) — çok dilli README deseni
+- 6 ay gerçek production marketplace'i çalıştırma — agents/skills/hooks harness olmadan önce gerçek savaş testinden geçti
 
 ## Dokümantasyon
 
 - [PLAN.md](PLAN.md) — master plan (mimari + roadmap)
 - [DECISIONS.md](DECISIONS.md) — 13 mimari karar ve gerekçesi
-- [PROVENANCE.md](PROVENANCE.md) — `go-party-venue-hub`'dan gelen (disiplin vs toz)
-- [RESOLVED-QUESTIONS.md](RESOLVED-QUESTIONS.md) — çözülmüş 5 kritik karar
+- [PROVENANCE.md](PROVENANCE.md) — disiplin vs toz denetimi
 - [CHANGELOG.md](CHANGELOG.md) — sürüm geçmişi
 - [docs/plugin-authoring.md](docs/plugin-authoring.md) — eklenti nasıl yazılır
 - [docs/upgrade-guide.md](docs/upgrade-guide.md) — `arthus-harness sync` derinlemesine
@@ -136,7 +239,7 @@ arthus-harness add-plugin <name>    # mevcut projeye eklenti ekle
 
 > Asıl proje yerine arthus-harness'ı 2 saatten fazla ayarlıyorsanız, **durun**.
 
-Harness araçtır, amaç değil. Source repo'da issue açın ve devam edin. `init-project` skill'i, sonraki prompt'un harness değil **ürün** hakkında olmasını zorlamak için tasarlanmıştır.
+Harness araçtır, amaç değil. issue açın ve devam edin. `init-project` skill, sonraki prompt'un harness değil **ürün** hakkında olmasını zorlamak için tasarlanmıştır.
 
 ## Star History
 
