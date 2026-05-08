@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" width="240" alt="arthus-harness 吉祥物 — 戴着攀岩安全带的水豚" />
+</p>
+
 # arthus-harness
 
 <p align="center">

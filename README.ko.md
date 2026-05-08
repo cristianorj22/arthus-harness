@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" width="240" alt="arthus-harness 마스코트 — 클라이밍 하네스를 입은 카피바라" />
+</p>
+
 # arthus-harness
 
 <p align="center">

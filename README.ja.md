@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="assets/logo.png" width="240" alt="arthus-harness マスコット — クライミングハーネスを着けたカピバラ" />
+</p>
+
 # arthus-harness
 
 <p align="center">
