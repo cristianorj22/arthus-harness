@@ -138,6 +138,10 @@ arthus-harness add-plugin <name>    # 기존 프로젝트에 플러그인 추가
 
 Harness는 수단이지 목적이 아닙니다. source repo에 issue를 열고 진행하세요. `init-project` skill은 다음 프롬프트가 harness가 아닌 **제품**에 관한 것이 되도록 강제하기 위해 설계되었습니다.
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=cristianorj22/arthus-harness&type=Date)](https://star-history.com/#cristianorj22/arthus-harness&Date)
+
 ## 라이선스
 
 MIT © 2026 Cristiano Moraes

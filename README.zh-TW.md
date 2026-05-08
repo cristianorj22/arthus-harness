@@ -138,6 +138,10 @@ arthus-harness add-plugin <name>    # 向現有專案新增外掛
 
 Harness 是手段,不是目的。在 source repo 開 issue 然後繼續。`init-project` skill 設計為強制下一個 prompt 是關於**產品**,而不是 harness。
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=cristianorj22/arthus-harness&type=Date)](https://star-history.com/#cristianorj22/arthus-harness&Date)
+
 ## 授權
 
 MIT © 2026 Cristiano Moraes

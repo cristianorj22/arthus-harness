@@ -138,6 +138,10 @@ arthus-harness add-plugin <nome>    # adiciona plugin a projeto existente
 
 O harness é meio, não fim. Abre uma issue no source repo e segue. A skill `init-project` é desenhada pra forçar o próximo prompt a ser sobre o **produto**, não o harness.
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=cristianorj22/arthus-harness&type=Date)](https://star-history.com/#cristianorj22/arthus-harness&Date)
+
 ## Licença
 
 MIT © 2026 Cristiano Moraes
