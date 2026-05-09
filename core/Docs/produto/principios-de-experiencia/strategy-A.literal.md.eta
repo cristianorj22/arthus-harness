@@ -10,7 +10,7 @@ related:
 
 # Princípios de Experiência — <%= projectName %>
 
-> **Strategy A (literal default).** Este arquivo chega pré-preenchido com as 4 sensações + 5 réguas operacionais que emergiram em GoParty. **Use, edite, ou troque.** Quando algo soar específico de GoParty (escrow, anfitrião, reserva), substitua pelo equivalente do seu domínio. Os comentários `<!-- example: GoParty — replace -->` marcam onde.
+> **Strategy A (literal default).** Este arquivo chega pré-preenchido com 4 sensações + 5 réguas operacionais. **Use, edite, ou troque.** Quando algo soar específico do exemplo (escrow, fornecedor, reserva), substitua pelo equivalente do seu domínio. Os comentários `<!-- example — replace -->` marcam onde.
 >
 > Se preferir começar do zero com framework guiado, veja `./CUSTOMIZATION.md` (Strategy C).
 
@@ -18,7 +18,7 @@ related:
 
 > **Não vendemos features. Vendemos a sensação de [X].**
 
-<!-- example: GoParty preenche [X] = "pagar e poder dormir tranquilo".
+<!-- example: para um marketplace fintech: [X] = "pagar e poder dormir tranquilo".
      Para um SaaS B2B: [X] = "deployar sexta-feira à tarde sem medo".
      Para um app de saúde: [X] = "saber que estou cuidando de mim".
      Para fintech: [X] = "ver pra onde vai cada centavo, sem surpresa".
@@ -33,16 +33,16 @@ A sensação central se desdobra em quatro estados que perseguimos em momentos e
 
 ### 1. Confiança — "[meu dinheiro está protegido]"
 
-<!-- example: GoParty: "meu dinheiro está protegido". Substitua pela frase âncora
+<!-- example: marketplace fintech: "meu dinheiro está protegido". Substitua pela frase âncora
      do momento mais sensível do seu produto. Em SaaS: "meu deploy não vai quebrar prod".
      Em saúde: "esse profissional é real e é bom". Em fintech: "minha grana está
      onde eu pus, e ninguém mais mexe". -->
 
-Sentida no momento mais sensível da jornada (em GoParty: checkout, primeira reserva, ao confirmar pagamento). Construída por **linguagem clara sobre o que está acontecendo, prazos visíveis, status acompanhável**. Quebrada por jargão técnico, status enigmáticos ("processando…"), ausência de quem-é-responsável-pelo-quê.
+Sentida no momento mais sensível da jornada (ex.: checkout, primeira reserva, ao confirmar pagamento). Construída por **linguagem clara sobre o que está acontecendo, prazos visíveis, status acompanhável**. Quebrada por jargão técnico, status enigmáticos ("processando…"), ausência de quem-é-responsável-pelo-quê.
 
 ### 2. Alívio — "[achei o lugar, posso descansar]"
 
-<!-- example: GoParty: "achei o espaço, evento dos sonhos parou de ser incerteza".
+<!-- example: marketplace fintech: "achei o que preciso, parou de ser incerteza".
      SaaS: "achei a integração, cabeça sai do problema". Saúde: "agendei a consulta,
      não preciso mais pesquisar". Substitua pela frase do momento "ufa" do seu produto. -->
 
@@ -54,7 +54,7 @@ Sentida durante toda a jornada. É o oposto de surpresa. Construída por timelin
 
 ### 4. Comemoração — "deu certo, agora é festa"
 
-<!-- example: GoParty: pós-evento, liberação de pagamento. SaaS: deploy concluído com sucesso.
+<!-- example: marketplace fintech: pós-evento, liberação de pagamento. SaaS: deploy concluído com sucesso.
      Saúde: alta médica. Substitua pelo equivalente do seu produto. -->
 
 Sentida pós-conclusão. É o **único momento em que celebrar sem pudor é o ponto**. Construída por reconhecimento ("deu tudo certo, parabéns!") e micro-rituais de fechamento. Quebrada por silêncio ou pela inversão (review pedido como obrigação chata).
@@ -166,4 +166,4 @@ Princípios não sobem de uma sessão de brainstorm — eles emergem de **padrõ
 
 ---
 
-> **Source histórico**: este documento foi extraído literal de `go-party-venue-hub/Docs/produto/principios-de-experiencia.md` no bootstrap via `arthus-harness v<%= harnessVersion %>`. Edição é encorajada.
+> **Source**: template Strategy A literal do `arthus-harness v<%= harnessVersion %>`. Edição é encorajada.

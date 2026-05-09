@@ -6,6 +6,21 @@ Versioning: [SemVer](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.1] — 2026-05-08
+
+### Changed — brand-neutralization
+
+- **Preset renamed**: `goparty-like` → `full-stack` (preset that ships supabase + design-system + asaas + i18n + e2e + journey-mapping). Old name leaked an unrelated product brand into the wizard prompt.
+- **Templates anonymized**: `core/Docs/produto/PRODUTO.md.eta`, `core/Docs/state.md.eta`, `core/Docs/produto/principios-de-experiencia/strategy-A.literal.md.eta`, `core/Docs/produto/principios-de-experiencia/strategy-C.framework.md.eta`, `core/.claude/skills/init-project/SKILL.md`, `core/.claude/agents/a11y-architect.md.eta` — all references to a specific product replaced with neutral placeholders / generic examples ("marketplace fintech", "[Produto]").
+- **Wizard prompt** in `src/prompts.mjs` — Strategy A description no longer cites a specific product.
+- Snapshot fixtures regenerated for the new preset name.
+
+### Migration note
+
+- Existing projects with `preset: goparty-like` in their lockfile (`.arthus-harness/lock.json`) are unaffected — the preset name is recorded but not re-resolved on `arthus-harness sync`. New projects use `full-stack`.
+
+
+
 ### Added — Bundle 4: `plugin-mcp-code-review-graph` (opt-in MCP)
 
 - **`plugins/mcp-code-review-graph/`** (new plugin) — wires the code-review-graph MCP server (Tree-sitter knowledge graph for token-efficient navigation/review/debug/refactor). Ships:
@@ -15,7 +30,7 @@ Versioning: [SemVer](https://semver.org/).
   - `docs/mcp-code-review-graph.md` — uv install + first-time setup + troubleshooting + when-to-use vs core agents.
 - Pre-requisites documented: `uv` (Python tool installer) + `uv tool install code-review-graph` once.
 - `prompts.mjs::ALL_PLUGINS` — added `mcp-code-review-graph` to multi-select.
-- **NOT** added to `goparty-like` preset by default — opt-in by name to avoid forcing the uv install on users who don't want it.
+- **NOT** added to `full-stack` preset by default — opt-in by name to avoid forcing the uv install on users who don't want it.
 
 ### Added — Bundle 3: real 3-way merge in `arthus-harness sync`
 
@@ -61,7 +76,7 @@ Versioning: [SemVer](https://semver.org/).
   - `files/Docs/produto/jornadas/_surfaces.json.template` — example config.
   - `docs/journey-mapping.md` — written to `Docs/produto/jornadas/JOURNEY-MAPPING.md` in target.
   - Wires `settingsHooks` for the PostToolUse handler.
-  - Added to `goparty-like` preset.
+  - Added to `full-stack` preset.
 - **`core/.claude/skills/spec-keeper/SKILL.md`** (new core skill) — Companion to SDD method. Auto-fires on common public surface paths (api/**, edge-functions/**, migrations/**, integrations clients). Reminds when SPEC.md §2 needs update. Content-agnostic, gracefully no-ops if SPEC.md doesn't have §2.
 - **`src/index.mjs` + `src/sync.mjs`** — added `hasJourneyMapping` to render context.
 - **`src/prompts.mjs`** — added journey-mapping to multi-select plugin list.
@@ -136,7 +151,7 @@ Pre-publish additions to v1.0 baseline (still v1.0 since not yet on npm).
 
 **Presets**
 
-- `goparty-like.yaml` — full stack (supabase + design-system + asaas + i18n + e2e).
+- `full-stack.yaml` — full stack (supabase + design-system + asaas + i18n + e2e).
 - `web-supabase.yaml` — supabase + design-system + e2e.
 - `minimal.yaml` — core only.
 
@@ -159,5 +174,6 @@ Pre-publish additions to v1.0 baseline (still v1.0 since not yet on npm).
 - Open questions resolved in [RESOLVED-QUESTIONS.md](RESOLVED-QUESTIONS.md).
 - Master plan in [PLAN.md](PLAN.md).
 
-[Unreleased]: https://github.com/cristianorj22/arthus-harness/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/cristianorj22/arthus-harness/compare/v1.0.1...HEAD
+[1.0.1]: https://github.com/cristianorj22/arthus-harness/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/cristianorj22/arthus-harness/releases/tag/v1.0.0

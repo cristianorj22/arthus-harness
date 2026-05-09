@@ -1,5 +1,5 @@
 ---
-last-update: 2026-05-08
+last-update: 2026-05-09
 status: ativo
 related:
   - ./SPEC.md
@@ -141,4 +141,4 @@ Para **tudo que vai pra `main`** e tem superfície externa, SDD é o default.
 
 ---
 
-> Bootstrapped from arthus-harness v1.0.0 on 2026-05-08.
+> Bootstrapped from arthus-harness v1.0.0 on 2026-05-09.

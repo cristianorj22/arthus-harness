@@ -108,4 +108,4 @@ Se um segredo vazar (push acidental, log, screenshot):
 
 Atualizar este arquivo é decisão consciente — sempre acompanhada de explicação no commit message.
 
-> Bootstrapped from arthus-harness v1.0.0 on 2026-05-08.
+> Bootstrapped from arthus-harness v1.0.0 on 2026-05-09.

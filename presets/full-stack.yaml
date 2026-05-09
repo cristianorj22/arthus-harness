@@ -1,5 +1,5 @@
-name: goparty-like
-description: Full GoParty-style stack — supabase + design system + payment + i18n + e2e + journey-mapping
+name: full-stack
+description: Full stack — supabase + design system + payment + i18n + e2e + journey-mapping
 plugins:
   - supabase
   - design-system-pipeline

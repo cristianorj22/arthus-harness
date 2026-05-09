@@ -17,7 +17,7 @@ const HARNESS_ROOT = path.resolve(__dirname, '..');
 const SNAPSHOTS_DIR = path.join(__dirname, 'snapshots');
 const UPDATE = process.env.UPDATE_SNAPSHOTS === '1';
 
-const PRESETS = ['minimal', 'web-supabase', 'goparty-like'];
+const PRESETS = ['minimal', 'web-supabase', 'full-stack'];
 
 for (const preset of PRESETS) {
   test(`snapshot: preset "${preset}"`, async (t) => {

@@ -1,5 +1,5 @@
 ---
-last-update: 2026-05-08
+last-update: 2026-05-09
 status: ativo
 maintainer: TODO (decisões), Claude (manutenção/checklist)
 ---
@@ -21,7 +21,7 @@ maintainer: TODO (decisões), Claude (manutenção/checklist)
 
 | Fase | Período | Resumo |
 |---|---|---|
-| **0 — Bootstrap** | 2026-05-08 | Bootstrap do harness arthus v1.0.0. `.claude/` (agents+commands+hooks+skills), `MISSION.md`, `CLAUDE.md`, `AGENTS.md`, scaffold de Docs/ canônico. |
+| **0 — Bootstrap** | 2026-05-09 | Bootstrap do harness arthus v1.0.0. `.claude/` (agents+commands+hooks+skills), `MISSION.md`, `CLAUDE.md`, `AGENTS.md`, scaffold de Docs/ canônico. |
 
 ## Fase atual — TBD
 
@@ -60,4 +60,4 @@ maintainer: TODO (decisões), Claude (manutenção/checklist)
 
 ---
 
-> Bootstrapped from arthus-harness v1.0.0 on 2026-05-08.
+> Bootstrapped from arthus-harness v1.0.0 on 2026-05-09.

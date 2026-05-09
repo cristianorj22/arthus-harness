@@ -57,7 +57,7 @@ Do NOT proceed past the guard without explicit "yes, overwrite, I know what I'm 
    c. **Stack plugins** — list available plugins (the generator prints them with `--list-plugins`). Ask which apply. Common: `supabase`, `design-system`, `e2e-playwright`, `i18n-pt-br`, `payment-asaas`. Verify: array of valid plugin names.
 
    d. **Experience principles strategy** — three options:
-      - `A` (literal) — copy GoParty's 4 sensations as-is, user adapts later.
+      - `A` (literal) — copy the pre-filled 4 sensations as-is, user adapts later.
       - `C` (framework) — empty template, user defines their own.
       - `both` — both, user picks per-doc.
 

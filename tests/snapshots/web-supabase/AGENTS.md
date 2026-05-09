@@ -42,4 +42,4 @@ Brief para qualquer AI coding agent (Codex, Cursor, GitHub Coding Agent, Claude 
 
 ---
 
-> Bootstrapped from arthus-harness v1.0.0 on 2026-05-08.
+> Bootstrapped from arthus-harness v1.0.0 on 2026-05-09.

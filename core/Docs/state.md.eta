@@ -24,7 +24,7 @@ maintainer: TODO (atualizar a cada sessão)
 
 - Branch: main
 - Last commit: bootstrap from arthus-harness v<%= harnessVersion %>
-- Status: bootstrap concluído. Próximos passos: <% if (principlesIsLiteral) { %>revisar `Docs/produto/principios-de-experiencia.md` (Strategy A literal — adaptar exemplos GoParty pro seu domínio)<% } %><% if (principlesIsFramework) { %>preencher `Docs/produto/principios-de-experiencia/strategy-C.framework.md` (definir suas N sensações + M réguas)<% } %>, preencher `MISSION.md` TODOs, planejar primeira feature.
+- Status: bootstrap concluído. Próximos passos: <% if (principlesIsLiteral) { %>revisar `Docs/produto/principios-de-experiencia.md` (Strategy A literal — adaptar exemplos pro seu domínio)<% } %><% if (principlesIsFramework) { %>preencher `Docs/produto/principios-de-experiencia/strategy-C.framework.md` (definir suas N sensações + M réguas)<% } %>, preencher `MISSION.md` TODOs, planejar primeira feature.
 
 ## Estado do sistema agora
 
@@ -41,7 +41,7 @@ maintainer: TODO (atualizar a cada sessão)
 ## Pendências de bootstrap
 
 1. **Preencher `MISSION.md` TODOs** — invariantes específicas do seu projeto (segurança, idempotência, RBAC, migrations).
-2. <% if (principlesIsLiteral) { %>**Adaptar `Docs/produto/principios-de-experiencia.md`** — Strategy A traz exemplos literais de GoParty; substitua por exemplos do seu domínio mantendo a estrutura das 4 sensações + 5 réguas.<% } %><% if (principlesIsFramework) { %>**Preencher `Docs/produto/principios-de-experiencia/strategy-C.framework.md`** — você escolheu Strategy C (framework). Defina suas próprias N sensações-âncora e M réguas operacionais usando o framework como guia.<% } %>
+2. <% if (principlesIsLiteral) { %>**Adaptar `Docs/produto/principios-de-experiencia.md`** — Strategy A traz exemplos literais; substitua por exemplos do seu domínio mantendo a estrutura das 4 sensações + 5 réguas.<% } %><% if (principlesIsFramework) { %>**Preencher `Docs/produto/principios-de-experiencia/strategy-C.framework.md`** — você escolheu Strategy C (framework). Defina suas próprias N sensações-âncora e M réguas operacionais usando o framework como guia.<% } %>
 3. **Preencher `Docs/produto/PRODUTO.md`** — sua tese de produto + N dores que você resolve.
 4. **Preencher `Docs/arquitetura/arquitetura-tecnica.md`** — stack + domínios + fluxo principal.
 5. **Definir primeira feature do roadmap** em `Docs/roadmap.md`.

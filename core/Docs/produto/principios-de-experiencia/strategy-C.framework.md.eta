@@ -12,7 +12,7 @@ related:
 
 > **Strategy C (framework, opt-in).** Este arquivo é um scaffold vazio com seções tipadas. Você define **suas** sensações-âncora e réguas operacionais. A skill `experience-principles` lê este arquivo dinamicamente — não tem nada hardcoded.
 >
-> Se preferir começar com a versão GoParty literal, troque por `./strategy-A.literal.md`. Você pode manter as duas no repo se quiser referência.
+> Se preferir começar com a versão literal pré-preenchida, troque por `./strategy-A.literal.md`. Você pode manter as duas no repo se quiser referência.
 
 ## O princípio central
 
@@ -21,10 +21,10 @@ related:
      (feature) — é o que a pessoa sente quando funciona.
 
      Exemplos canônicos:
-     - GoParty: "Vendemos a sensação de pagar e poder dormir tranquilo."
      - Apple: "Vendemos a sensação de que tudo simplesmente funciona."
      - Stripe: "Vendemos a sensação de que pagamento não é seu problema."
-     - Notion: "Vendemos a sensação de que sua cabeça pode descansar." -->
+     - Notion: "Vendemos a sensação de que sua cabeça pode descansar."
+     - Marketplace fintech: "Vendemos a sensação de pagar e poder dormir tranquilo." -->
 
 > **TODO**: defina o princípio central do `<%= projectName %>`.
 
@@ -70,7 +70,7 @@ related:
      3. Sinais de violação no código (grep targets)
      4. Severidade ao reportar (HIGH em flow crítico, MEDIUM nos demais)
 
-     GoParty tem 5 réguas. Outros produtos podem ter 3-7. Mais que 7 = ninguém
+     A maioria dos produtos cabe em 3-7 réguas. Mais que 7 = ninguém
      lembra; ninguém aplica. -->
 
 ### Régua 1 — [TODO: nome curto]
@@ -96,8 +96,8 @@ related:
 ## Anti-padrão geral
 
 <!-- INSTRUÇÃO: o anti-padrão é o reflexo errado mais comum quando alguém vê um
-     problema de produto. Em GoParty: "vamos resolver isso adicionando feature".
-     Pode ser também "vamos resolver com mais conteúdo", "vamos refatorar tudo",
+     problema de produto. Exemplos: "vamos resolver isso adicionando feature",
+     "vamos resolver com mais conteúdo", "vamos refatorar tudo",
      "vamos contratar mais devs". O sintoma + a re-pergunta certa. -->
 
 > [TODO: o reflexo errado].

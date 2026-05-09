@@ -102,7 +102,7 @@ npx @lhci/cli@latest collect --url=http://localhost:8080
 
 ## Reference contrast pairs (replace with your tokens)
 
-Below are GoParty examples — replace with your project's validated contrast pairs once your design system has them documented:
+Below are reference examples — replace with your project's validated contrast pairs once your design system has them documented:
 
 | Surface | Ink AA-safe |
 |---|---|

@@ -1,5 +1,5 @@
 ---
-last-update: 2026-05-08
+last-update: 2026-05-09
 branch: main
 last-commit: bootstrap from arthus-harness v1.0.0
 maintainer: TODO (atualizar a cada sessão)
@@ -20,11 +20,11 @@ maintainer: TODO (atualizar a cada sessão)
 - **Último commit**: `bootstrap from arthus-harness v1.0.0`
 - **Status worktree**: limpo (recém-bootstrapped).
 
-## Sessão 1 — 2026-05-08
+## Sessão 1 — 2026-05-09
 
 - Branch: main
 - Last commit: bootstrap from arthus-harness v1.0.0
-- Status: bootstrap concluído. Próximos passos: revisar `Docs/produto/principios-de-experiencia.md` (Strategy A literal — adaptar exemplos GoParty pro seu domínio), preencher `MISSION.md` TODOs, planejar primeira feature.
+- Status: bootstrap concluído. Próximos passos: revisar `Docs/produto/principios-de-experiencia.md` (Strategy A literal — adaptar exemplos pro seu domínio), preencher `MISSION.md` TODOs, planejar primeira feature.
 
 ## Estado do sistema agora
 
@@ -41,7 +41,7 @@ maintainer: TODO (atualizar a cada sessão)
 ## Pendências de bootstrap
 
 1. **Preencher `MISSION.md` TODOs** — invariantes específicas do seu projeto (segurança, idempotência, RBAC, migrations).
-2. **Adaptar `Docs/produto/principios-de-experiencia.md`** — Strategy A traz exemplos literais de GoParty; substitua por exemplos do seu domínio mantendo a estrutura das 4 sensações + 5 réguas.
+2. **Adaptar `Docs/produto/principios-de-experiencia.md`** — Strategy A traz exemplos literais; substitua por exemplos do seu domínio mantendo a estrutura das 4 sensações + 5 réguas.
 3. **Preencher `Docs/produto/PRODUTO.md`** — sua tese de produto + N dores que você resolve.
 4. **Preencher `Docs/arquitetura/arquitetura-tecnica.md`** — stack + domínios + fluxo principal.
 5. **Definir primeira feature do roadmap** em `Docs/roadmap.md`.
@@ -57,4 +57,4 @@ maintainer: TODO (atualizar a cada sessão)
 
 ---
 
-> Bootstrapped from arthus-harness v1.0.0 on 2026-05-08.
+> Bootstrapped from arthus-harness v1.0.0 on 2026-05-09.

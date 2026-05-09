@@ -80,14 +80,14 @@ export async function promptUser({ defaultName } = {}) {
       message: 'Experience principles',
       choices: [
         {
-          title: 'A — literal (4 sensações + 5 réguas from GoParty, ready to use)',
+          title: 'A — literal (4 sensações + 5 réguas pre-filled, edit to your product)',
           value: 'A',
           description: 'Opinionated default. Override sentences in 5 min if needed.',
         },
         {
           title: 'C — framework (you define your own N sensações + M réguas)',
           value: 'C',
-          description: 'For products with a different brand voice from GoParty.',
+          description: 'For products that prefer to define principles from scratch.',
         },
         {
           title: 'both — ship A as default + C framework available',

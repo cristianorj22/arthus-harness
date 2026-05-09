@@ -1,6 +1,6 @@
 ---
 version: 0.1.0
-last-update: 2026-05-08
+last-update: 2026-05-09
 status: stub
 maintainer: TODO
 related:
@@ -165,7 +165,7 @@ sequenceDiagram
 
 | Versão | Data | Autor | Mudança |
 |---|---|---|---|
-| 0.1.0 | 2026-05-08 | bootstrap | Esqueleto inicial gerado por arthus-harness v1.0.0 |
+| 0.1.0 | 2026-05-09 | bootstrap | Esqueleto inicial gerado por arthus-harness v1.0.0 |
 
 ---
 

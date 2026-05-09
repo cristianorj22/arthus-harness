@@ -1,5 +1,5 @@
 ---
-last-update: 2026-05-08
+last-update: 2026-05-09
 status: ativo (esqueleto — preencher)
 maintainer: humano (decisão), AI (extração + sync)
 gatilho-update: toda feature nova ganha 1+ RF antes de codar
@@ -89,4 +89,4 @@ Exemplo (referência — apagar após preencher):
 
 ---
 
-> Bootstrapped from arthus-harness v1.0.0 on 2026-05-08.
+> Bootstrapped from arthus-harness v1.0.0 on 2026-05-09.

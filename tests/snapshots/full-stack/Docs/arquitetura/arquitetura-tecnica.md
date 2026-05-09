@@ -1,5 +1,5 @@
 ---
-last-update: 2026-05-08
+last-update: 2026-05-09
 status: ativo (esqueleto — preencher)
 gatilho-update: ao mudar stack, adicionar integração externa, ou refactor estrutural
 maintainer: TODO (decisões), Claude (manutenção textual ao tocar áreas)
@@ -105,4 +105,4 @@ Diagramas iniciais:
 
 ---
 
-> Bootstrapped from arthus-harness v1.0.0 on 2026-05-08.
+> Bootstrapped from arthus-harness v1.0.0 on 2026-05-09.

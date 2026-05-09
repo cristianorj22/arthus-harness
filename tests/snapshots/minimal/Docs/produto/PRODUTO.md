@@ -1,5 +1,5 @@
 ---
-last-update: 2026-05-08
+last-update: 2026-05-09
 status: ativo (esqueleto — preencher)
 maintainer: TODO (visão), revisão trimestral
 ---
@@ -18,7 +18,7 @@ maintainer: TODO (visão), revisão trimestral
 
 > TODO — escreva em uma linha **a dor que você resolve**. Se você precisa de mais de uma linha, ainda não está claro.
 
-Exemplo (de outro projeto, GoParty): "A celebração brasileira ainda é negociada na confiança — e quando a confiança falha, alguém perde dinheiro. **GoParty resolve a confiança financeira do evento**, ponta a ponta."
+Exemplo (referência de um marketplace fintech): "A celebração brasileira ainda é negociada na confiança — e quando a confiança falha, alguém perde dinheiro. **[Produto] resolve a confiança financeira do evento**, ponta a ponta."
 
 ## 5 dores reais e como resolvemos
 
@@ -81,19 +81,19 @@ Exemplo (de outro projeto, GoParty): "A celebração brasileira ainda é negocia
 - TODO
 
 <!--
-Exemplo (referência — apagar após preencher) — formato GoParty:
+Exemplo (referência — apagar após preencher):
 
-### Dor 1 — "Paguei antes, mas o anfitrião sumiu"
+### Dor 1 — "Paguei antes, mas o fornecedor sumiu"
 
-**Quem sofre**: Organizador (B2C) — pessoa física pagando o evento dos sonhos.
+**Quem sofre**: Cliente (B2C) — pessoa física pagando um serviço crítico.
 
 **O drama**:
-> "Paguei R$ 3.500 por um salão na Vila Olímpia. Faltam 2 semanas pro casamento. O anfitrião não responde mais. Procurei outro espaço — não tem disponibilidade. Achei que pagar antes era pra garantir; na verdade me trancou."
+> "Paguei R$ 3.500 por um serviço. Faltam 2 semanas pro evento. O fornecedor não responde mais. Procurei outro — não tem disponibilidade. Achei que pagar antes era pra garantir; na verdade me trancou."
 
-**Como GoParty resolve**:
-- **Escrow Asaas**: dinheiro fica retido na plataforma, não vai pro anfitrião antes do evento
-- **Liberação automática pós-evento**: dinheiro só transita 48h após o evento confirmado pelas duas partes
-- **Disputa formal**: organizador abre disputa, plataforma media, valor volta se houver fraude
+**Como [Produto] resolve**:
+- **Escrow**: dinheiro fica retido na plataforma, não vai pro fornecedor antes da entrega
+- **Liberação automática pós-entrega**: dinheiro só transita 48h após confirmação das duas partes
+- **Disputa formal**: cliente abre disputa, plataforma media, valor volta se houver fraude
 -->
 
 ## Personas
@@ -180,4 +180,4 @@ EXEMPLOS de princípios operacionais (apague ao preencher os seus):
 
 ---
 
-> Bootstrapped from arthus-harness v1.0.0 on 2026-05-08.
+> Bootstrapped from arthus-harness v1.0.0 on 2026-05-09.
